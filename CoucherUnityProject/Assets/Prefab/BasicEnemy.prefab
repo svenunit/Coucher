@@ -94,8 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
-  player1: {fileID: 0}
-  player2: {fileID: 0}
+  startingHealth: 1
 --- !u!61 &6724261516713472581
 BoxCollider2D:
   m_ObjectHideFlags: 0

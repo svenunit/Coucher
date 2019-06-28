@@ -12,6 +12,31 @@ public abstract class Enemy : MonoBehaviour
         protected set => moveSpeed = value;
     }
 
+    [Range(1, 10)] protected int health;
+    public int Health
+    {
+        get => health;
+        protected set
+        {
+            health = Mathf.Clamp(value, 0, int.MaxValue);
+            if (health == 0) Die();
+        }
+    }
+
+    [Range(1, 10)] [SerializeField] protected int startingHealth;
+    public int StartingHealth
+    {
+        get => startingHealth;
+        protected set => startingHealth = Mathf.Clamp(value, 0, int.MaxValue);
+    }
+
+    protected bool stunned;
+    public bool Stunned
+    {
+        get => stunned;
+        protected set => stunned = value;
+    }
+
     protected Transform target;
     public Transform Target
     {
@@ -19,14 +44,14 @@ public abstract class Enemy : MonoBehaviour
         protected set => target = value;
     }
 
-    [SerializeField] protected Transform player1;
+    protected Transform player1;
     public Transform Player1
     {
         get => player1;
         set => player1 = value;
     }
 
-    [SerializeField] protected Transform player2;
+    protected Transform player2;
     public Transform Player2
     {
         get => player2;
@@ -36,6 +61,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         GetPlayerReferences();
+        Health = StartingHealth;
     }
 
     protected virtual void Start()
@@ -57,14 +83,22 @@ public abstract class Enemy : MonoBehaviour
 
     private void GetPlayerReferences()
     {
-        // Find player here
+        // Find players here, Player1 is the one with the lower PlayerNumber.
         var players = FindObjectsOfType<PlayerInput>();
         if (players == null || players.Length < 2)
         {
-            throw new System.Exception("Need 2 players in the scene for enemies to work!");
+            throw new System.Exception("Need 2 players in the scene for enemies to work properly!");
         }
-        Player1 = players.Where(x => x.getPlayerNumber() == 1).First().transform;
-        Player2 = players.Where(x => x.getPlayerNumber() == 2).First().transform;
+        if (players[0].getPlayerNumber() < players[1].getPlayerNumber())
+        {
+            Player1 = players[0].transform;
+            Player2 = players[1].transform;
+        }
+        else
+        {
+            Player1 = players[1].transform;
+            Player2 = players[0].transform;
+        }
     }
 
     protected virtual Transform FindTarget()
@@ -81,6 +115,21 @@ public abstract class Enemy : MonoBehaviour
     {
         if (Target == null) return;
         transform.position = Vector3.MoveTowards(transform.position, Target.position, moveSpeed * Time.fixedDeltaTime);
+    }
+
+    public virtual void TakeDamage(int amount)
+    {
+        Health -= Mathf.Abs(amount);
+    }
+
+    public virtual void Stun()
+    {
+        Stunned = true;
+    }
+
+    public virtual void Recover()
+    {
+        Stunned = false;
     }
 
     protected virtual void Die()

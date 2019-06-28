@@ -60,23 +60,24 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(gridOrigin, gridSize);
-        if (SpawnGrid != null)
-        {
-            foreach (var posArray in SpawnGrid)
-            {
-                foreach (var pos in posArray)
-                {
-                    Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
-                }
-            }
-        }
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(gridOrigin, gridSize);
+        //if (SpawnGrid != null)
+        //{
+        //    foreach (var posArray in SpawnGrid)
+        //    {
+        //        foreach (var pos in posArray)
+        //        {
+        //            Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
+        //        }
+        //    }
+        //}
     }
 
     private void OnEnemyDied(Enemy enemy)
     {
         Enemies.Remove(enemy);
+        Destroy(enemy.gameObject);
         if (Enemies.Count == 0)
         {
             EventManager.AllEnemiesDead.RaiseEvent();
