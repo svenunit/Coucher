@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : MonoBehaviour, IListener
 {
     [Header("Spawn Grid")]
     [SerializeField] private Vector2 gridOrigin;
@@ -18,16 +19,30 @@ public class EnemyManager : MonoBehaviour
     [Header("Enemy Prefabs")]
     [SerializeField] private Enemy BasicEnemyPrefab;
 
+    public List<Enemy> Enemies { get; private set; }
+
+    private Collider2D[] positionCheckColliders = new Collider2D[1];
+
     private void Awake()
     {
+        Enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
         InitGrid();
+    }
+
+    private void OnEnable()
+    {
+        EventManager.EnemyDied.AddListener(this, OnEnemyDied);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.EnemyDied.RemoveListener(this);
     }
 
     private void Start()
     {
 
     }
-
 
     private void Update()
     {
@@ -36,7 +51,10 @@ public class EnemyManager : MonoBehaviour
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             pos.z = 0f;
             pos = GetClosestGridPos(pos);
-            print(PositionInsideGrid(pos));
+            if ((PositionInsideGrid(pos) == true) && PositionIsOccupied(pos) == false)
+            {
+                SpawnEnemy(BasicEnemyPrefab, pos);
+            }
         }
     }
 
@@ -53,6 +71,15 @@ public class EnemyManager : MonoBehaviour
                     Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
                 }
             }
+        }
+    }
+
+    private void OnEnemyDied(Enemy enemy)
+    {
+        Enemies.Remove(enemy);
+        if (Enemies.Count == 0)
+        {
+            EventManager.AllEnemiesDead.RaiseEvent();
         }
     }
 
@@ -88,8 +115,15 @@ public class EnemyManager : MonoBehaviour
         else return false;
     }
 
-    public void SpawnEnemy(Enemy enemyToSpawn)
+    public void SpawnEnemy(Enemy enemyToSpawn, Vector2 pos)
     {
+        Enemies.Add(Instantiate(enemyToSpawn, pos, Quaternion.identity));
+    }
 
+    private bool PositionIsOccupied(Vector2 position)
+    {
+        if (Physics2D.OverlapBoxNonAlloc(position, Vector2.one * gridSpacing, 0f, positionCheckColliders) > 0)
+            return true;
+        else return false;
     }
 }

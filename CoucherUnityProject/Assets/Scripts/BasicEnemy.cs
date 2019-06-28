@@ -18,4 +18,9 @@ public class BasicEnemy : Enemy
     {
         base.FixedUpdate();
     }
+
+    protected override void Die()
+    {
+        base.Die();
+    }
 }
