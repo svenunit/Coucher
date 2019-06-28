@@ -5,11 +5,15 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     [SerializeField]
-    int PlayerNumber;
+    int _playerNumber;
 
     float _verticalAxes;
     float _horizontalAxes;
     public float movementSpeed;
+
+    [Header("DEBUG")]
+    public bool keyboardMovement = false;
+   
 
 
 
@@ -20,13 +24,37 @@ public class PlayerInput : MonoBehaviour
         {
             print(i + " " + controller[i]);
         }
+        if (_playerNumber == 0)
+            _playerNumber++;
     }
     private void FixedUpdate()
     {
-        _verticalAxes = Input.GetAxis("VerticalP" + PlayerNumber)*movementSpeed*Time.deltaTime;
-        _horizontalAxes = Input.GetAxis("HorizontalP" + PlayerNumber)*movementSpeed*Time.deltaTime;
 
-        transform.Translate(_horizontalAxes, _verticalAxes,0);
+        if (keyboardMovement)
+        {
+            _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber+"K") * movementSpeed * Time.deltaTime;
+            _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber+"K")  * movementSpeed * Time.deltaTime;
+            transform.Translate(_horizontalAxes, _verticalAxes, 0);
+        }
+        else
+        {
+
+            _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber) * movementSpeed * Time.deltaTime;
+            _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber) * movementSpeed * Time.deltaTime;
+            transform.Translate(_horizontalAxes, _verticalAxes, 0);
+
+
+        }
 
     }
+    public int getPlayerNumber()
+    {
+        return _playerNumber;
+    }
+
+    public void setPlayerNumber(int playerNumber)
+    {
+        _playerNumber = playerNumber;
+    }
+
 }

@@ -296,8 +296,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846193bf44ece284796894c54c0829bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 1
+  _playerNumber: 1
   movementSpeed: 5
+  keyboardMovement: 0
 --- !u!50 &584666690
 Rigidbody2D:
   serializedVersion: 4
@@ -350,8 +351,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846193bf44ece284796894c54c0829bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerNumber: 2
+  _playerNumber: 2
   movementSpeed: 5
+  keyboardMovement: 0
 --- !u!212 &1512136048
 SpriteRenderer:
   m_ObjectHideFlags: 0
