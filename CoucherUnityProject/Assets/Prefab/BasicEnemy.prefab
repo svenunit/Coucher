@@ -103,7 +103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 6895495282096838205, guid: 5f72507d434da964da8bea2b6f2d161f,
     type: 3}
   m_Color: {r: 0.9490196, g: 0.23529412, b: 0.07450981, a: 1}
@@ -140,7 +140,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -182,11 +182,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7242880211381821150}
     m_Modifications:
-    - target: {fileID: 3794909804827260282, guid: c96c5b607650f1c4bbe781215fed9963,
-        type: 3}
-      propertyPath: m_Name
-      value: BasicEnemyDeathPS
-      objectReference: {fileID: 0}
     - target: {fileID: 3794909804827260281, guid: c96c5b607650f1c4bbe781215fed9963,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -241,6 +236,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3794909804827260282, guid: c96c5b607650f1c4bbe781215fed9963,
+        type: 3}
+      propertyPath: m_Name
+      value: BasicEnemyDeathPS
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c96c5b607650f1c4bbe781215fed9963, type: 3}
@@ -316,16 +316,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3891484678414848348, guid: a0ad9928f39c2ed46ba7ed5fd5917ad1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5426187431185103348, guid: a0ad9928f39c2ed46ba7ed5fd5917ad1,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0ad9928f39c2ed46ba7ed5fd5917ad1, type: 3}
