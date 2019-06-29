@@ -3,7 +3,8 @@
 public class EventManager : MonoBehaviour
 {
     public static Event1<Enemy> EnemyDied { get; private set; }
-    public static Event0 AllEnemiesDead { get; private set; }
+    public static Event0 AllWavesDone { get; private set; }
+    public static Event1<int> NewLevelStarted { get; private set; }
 
     private void Awake()
     {
@@ -13,7 +14,8 @@ public class EventManager : MonoBehaviour
     private void InitEvents()
     {
         EnemyDied = new Event1<Enemy>();
-        AllEnemiesDead = new Event0();
+        AllWavesDone = new Event0();
+        NewLevelStarted = new Event1<int>();
     }
 }
 

@@ -17,14 +17,25 @@ public class EnemyManager : MonoBehaviour, IListener
     public Vector2[][] SpawnGrid { get; private set; }
 
     [Header("Enemy Prefabs")]
-    [SerializeField] private Enemy BasicEnemyPrefab;
+    [SerializeField] private Enemy basicEnemyPrefab;
+    [SerializeField] private GameObject enemySpawnIndicator;
+    [SerializeField] private GameObject basicEnemyDeathPSPrefab;
+
+    private ParticleSystem basicEnemyDeathPS;
 
     [Header("Enemy Level Data")]
     [SerializeField] private EnemyLevelData[] enemyLevelData;
     private int currentLevelIndex = 0;
     private EnemyLevelData currentEnemyLevelData;
     private Wave currentWave;
+    public Wave nextWave => waveIndex <= currentEnemyLevelData.Waves.Length - 1 ? currentEnemyLevelData.Waves[waveIndex] : null;
     private int waveIndex = 0;
+
+    [Header("Enemy Spawn")]
+    [Range(.1f, 2f)] [SerializeField] private float enemySpawnDelay = 1f;
+
+    public bool SpawnProcessOngoing => spawnWaveCoroutine != null;
+    private float nextWaveTimer = 0f;
 
     public List<Enemy> Enemies { get; private set; }
 
@@ -35,27 +46,30 @@ public class EnemyManager : MonoBehaviour, IListener
     private void Awake()
     {
         Enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
-        InitGrid();
+        basicEnemyDeathPS = Instantiate(basicEnemyDeathPSPrefab, Vector3.zero, Quaternion.identity).GetComponent<ParticleSystem>();
+        InitSpawnGrid();
     }
 
     private void OnEnable()
     {
         EventManager.EnemyDied.AddListener(this, OnEnemyDied);
+        EventManager.NewLevelStarted.AddListener(this, OnNewLevelStarted);
     }
 
     private void OnDisable()
     {
         EventManager.EnemyDied.RemoveListener(this);
+        EventManager.NewLevelStarted.RemoveListener(this);
     }
 
     private void Start()
     {
-        currentEnemyLevelData = enemyLevelData[0];
-        currentWave = currentEnemyLevelData.Waves[waveIndex];
+        InitLevel(0);
     }
 
     private void Update()
     {
+        HandleCurrentWaveTimer();
         if (Input.GetMouseButtonDown(0))
         {
             var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -63,19 +77,21 @@ public class EnemyManager : MonoBehaviour, IListener
             pos = GetClosestGridPos(pos);
             if ((PositionInsideGrid(pos) == true) && PositionIsOccupied(pos) == false)
             {
-                SpawnEnemy(BasicEnemyPrefab, pos);
+                SpawnEnemy(basicEnemyPrefab, pos);
             }
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //foreach (var enemy in Enemies)
             //    enemy.Stun();
-            spawnWaveCoroutine = StartCoroutine(SpawnWave(currentWave));
+
+            TrySpawnNextWave();
+
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            //foreach (var enemy in Enemies)
-            //    enemy.Recover();
+            foreach (var enemy in Enemies.ToArray())
+                enemy.TakeDamage(1);
         }
     }
 
@@ -98,18 +114,13 @@ public class EnemyManager : MonoBehaviour, IListener
     private void OnEnemyDied(Enemy enemy)
     {
         Enemies.Remove(enemy);
-        Destroy(enemy.gameObject);
         if (Enemies.Count == 0)
-        {
-            if (WavesLeft(currentEnemyLevelData) == true)
-            {
-                currentWave = currentEnemyLevelData.Waves[waveIndex];
-                waveIndex++;
-                spawnWaveCoroutine = StartCoroutine(SpawnWave(currentWave));
-            }
-            else
-                EventManager.AllEnemiesDead.RaiseEvent();
-        }
+            TrySpawnNextWave();
+    }
+
+    private void OnNewLevelStarted(int levelIndex)
+    {
+        InitLevel(levelIndex);
     }
 
     private bool WavesLeft(EnemyLevelData currentEnemyLevelData)
@@ -118,7 +129,7 @@ public class EnemyManager : MonoBehaviour, IListener
         else return false;
     }
 
-    private void InitGrid()
+    private void InitSpawnGrid()
     {
         int sizeX = (int)(gridSize.x * (1f / gridSpacing));
         int sizeY = (int)(gridSize.y * (1f / gridSpacing));
@@ -137,6 +148,19 @@ public class EnemyManager : MonoBehaviour, IListener
         }
     }
 
+    private void InitLevel(int index)
+    {
+        if (index < 0 || index > enemyLevelData.Length - 1)
+        {
+            throw new Exception("Cannot get level with index: " + index);
+        }
+        waveIndex = 0;
+        currentLevelIndex = index;
+        currentEnemyLevelData = enemyLevelData[currentLevelIndex];
+        currentWave = currentEnemyLevelData.Waves[waveIndex];
+        TrySpawnNextWave();
+    }
+
     public Vector2 GetClosestGridPos(Vector2 inputPosition)
     {
         return new Vector2(Mathf.Round(inputPosition.x), Mathf.Round(inputPosition.y));
@@ -150,10 +174,23 @@ public class EnemyManager : MonoBehaviour, IListener
         else return false;
     }
 
+    private void TrySpawnNextWave()
+    {
+        if (WavesLeft(currentEnemyLevelData) == false)
+        {
+            EventManager.AllWavesDone.RaiseEvent();
+            return;
+        }
+        currentWave = currentEnemyLevelData.Waves[waveIndex];
+        waveIndex++;
+        spawnWaveCoroutine = StartCoroutine(SpawnWave(currentWave));
+        print("Spawning next wave!");
+    }
 
     public IEnumerator SpawnWave(Wave wave)
     {
         float delayAfterEachSpawn = wave.EnemySpawnDuration / wave.EnemiesToSpawn.Length;
+
         foreach (var enemy in wave.EnemiesToSpawn)
         {
             Vector2 spawnPos = FindEnemySpawnPosition();
@@ -163,11 +200,22 @@ public class EnemyManager : MonoBehaviour, IListener
         }
         yield return null;
         spawnWaveCoroutine = null;
+        nextWaveTimer = 0f;
     }
 
     public void SpawnEnemy(Enemy enemyToSpawn, Vector2 pos)
     {
+        StartCoroutine(EnemySpawnRoutine(enemyToSpawn, pos));
+    }
+
+    private IEnumerator EnemySpawnRoutine(Enemy enemyToSpawn, Vector2 pos)
+    {
+        // Spawn enemy spawn indicator.
+        var indicator = Instantiate(enemySpawnIndicator, pos, Quaternion.identity);
+        yield return new WaitForSeconds(enemySpawnDelay);
+        // Spawn enemy and remove indicator.
         Enemies.Add(Instantiate(enemyToSpawn, pos, Quaternion.identity));
+        Destroy(indicator);
     }
 
     private Vector2 FindEnemySpawnPosition()
@@ -189,5 +237,15 @@ public class EnemyManager : MonoBehaviour, IListener
         if (Physics2D.OverlapBoxNonAlloc(position, Vector2.one * gridSpacing, 0f, positionCheckColliders) > 0)
             return true;
         else return false;
+    }
+
+    private void HandleCurrentWaveTimer()
+    {
+        if (SpawnProcessOngoing == true || nextWave == null) return;
+        nextWaveTimer += Time.deltaTime;
+        if (nextWaveTimer > nextWave.TimeTriggerMin)
+        {
+            TrySpawnNextWave();
+        }
     }
 }
