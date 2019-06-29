@@ -559,6 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204249243}
   - component: {fileID: 204249244}
+  - component: {fileID: 204249245}
   m_Layer: 0
   m_Name: PathfindingGrid
   m_TagString: Untagged
@@ -595,8 +596,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridLowerLeftCornerTransform: {fileID: 1205935592}
   width: 25
-  height: 20
+  height: 12
   nodeSize: 1
+--- !u!114 &204249245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204249242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da0dee633341a6f459b2a327a3f2d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &231025598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1415,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205935591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.280001, y: -8.77, z: -30.937302}
+  m_LocalPosition: {x: -12.73, y: -6.2, z: -30.937302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 204249243}

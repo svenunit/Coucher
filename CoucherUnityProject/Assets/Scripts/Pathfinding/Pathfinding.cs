@@ -10,7 +10,7 @@ public class Pathfinding : MonoBehaviour
         pathfindingGrid = GetComponent<PathfindingGrid>();
     }
 
-    public List<Vector2> FindPath(Node start, Node end, Node[,] map)
+    public List<Vector2> FindPath(Node start, Node end)
     {
         List<Node> openSet = new List<Node>();
         HashSet<Node> closedSet = new HashSet<Node>();

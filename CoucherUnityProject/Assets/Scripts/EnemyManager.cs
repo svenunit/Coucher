@@ -94,8 +94,8 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(gridOrigin, gridSize);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(gridOrigin, gridSize);
         //if (SpawnGrid != null)
         //{
         //    foreach (var posArray in SpawnGrid)

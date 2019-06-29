@@ -123,6 +123,27 @@ public abstract class Enemy : MonoBehaviour
         protected set => playerHitByMostRecently = value;
     }
 
+    protected Pathfinding pathfinding;
+    public Pathfinding Pathfinding
+    {
+        get => pathfinding;
+        protected set => pathfinding = value;
+    }
+
+    protected PathfindingGrid pathfindingGrid;
+    public PathfindingGrid PathfindingGrid
+    {
+        get => pathfindingGrid;
+        protected set => pathfindingGrid = value;
+    }
+
+    protected List<Vector2> pathToTarget;
+    public List<Vector2> PathToTarget
+    {
+        get => pathToTarget;
+        protected set => pathToTarget = value;
+    }
+    private int pathIndex = 0;
 
     protected virtual void Awake()
     {
@@ -137,6 +158,9 @@ public abstract class Enemy : MonoBehaviour
         ExplosionGameobject = transform.Find("DeathEffects").gameObject;
         Explosionanimator = ExplosionGameobject.GetComponentInChildren<Animator>();
         ExplosionGameobject.SetActive(false);
+        Pathfinding = FindObjectOfType<Pathfinding>();
+        PathfindingGrid = FindObjectOfType<PathfindingGrid>();
+        PathToTarget = new List<Vector2>();
     }
 
     protected virtual void Start()
@@ -157,14 +181,6 @@ public abstract class Enemy : MonoBehaviour
             PlayerHitByMostRecently = CollidingPlayer;
             OnHitByPlayerDash(1);
         }
-        //else if (CollidingPlayer != null && CollidingPlayer == PlayerHitByMostRecently)
-        //{
-        //    print("Hit by the same player again!");
-        //}
-        //else if (CollidingPlayer == null)
-        //{
-        //    print("CollidingPlayer == null");
-        //}
     }
 
     private void OnDrawGizmos()
@@ -172,6 +188,13 @@ public abstract class Enemy : MonoBehaviour
         if (Target == null) return;
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, Target.position);
+        if (PathToTarget != null)
+        {
+            foreach (var pos in PathToTarget)
+            {
+                Gizmos.DrawWireCube(pos, Vector2.one * .25f);
+            }
+        }
     }
 
     private void GetPlayerReferences()
@@ -197,6 +220,16 @@ public abstract class Enemy : MonoBehaviour
     protected virtual Transform FindTarget()
     {
         if (Player1 == null || Player2 == null) return null;
+        //// try use pathfinding to get path
+        //Node start = PathfindingGrid.GetNodeByPosition(transform.position);
+        //Node end = PathfindingGrid.GetNodeByPosition(player2.position);
+        //PathToTarget = Pathfinding.FindPath(start, end);
+        //if (PathToTarget != null)
+        //{
+        //    Debug.LogWarning("Found Path!");
+        //}
+        //else Debug.LogWarning("Found NO PATH!");
+
         // default: get closest player
         float dist1 = Vector2.Distance(transform.position, player1.position);
         if (dist1 < Vector2.Distance(transform.position, player2.position))
@@ -208,6 +241,10 @@ public abstract class Enemy : MonoBehaviour
     {
         if (Target == null || Alive == false) return;
         transform.position = Vector3.MoveTowards(transform.position, Target.position, moveSpeed * Time.fixedDeltaTime);
+        //if ((Vector2)transform.position == PathToTarget[pathIndex])
+        //{
+        //    pathIndex++;
+        //}
     }
 
     public virtual void TakeDamage(int amount)

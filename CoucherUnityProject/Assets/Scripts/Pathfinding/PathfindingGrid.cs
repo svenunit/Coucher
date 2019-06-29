@@ -43,15 +43,15 @@ public class PathfindingGrid : MonoBehaviour,IListener
 
     private void OnDrawGizmos()
     {
-        //var gridSize = new Vector3(width, height, 0f);
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
-        //if (Map == null) return;
-        //Gizmos.color = Color.black;
-        //foreach (var node in Map)
-        //{
-        //    Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
-        //}
+        var gridSize = new Vector3(width, height, 0f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
+        if (Map == null) return;
+        Gizmos.color = Color.black;
+        foreach (var node in Map)
+        {
+            Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
+        }
     }
 
     private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
@@ -85,6 +85,7 @@ public class PathfindingGrid : MonoBehaviour,IListener
         int y = Mathf.RoundToInt(worldSpacePos.y / nodeSize);
         x = Mathf.Clamp(x, 0, width - 1);
         y = Mathf.Clamp(y, 0, height - 1);
+        Debug.LogWarning(x + " //  " + y);
         return Map[x, y];
     }
 
