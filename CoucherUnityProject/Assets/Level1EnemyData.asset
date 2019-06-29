@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e3f01079511669459f721f6672ffc7c, type: 3}
+  m_Name: Level1EnemyData
+  m_EditorClassIdentifier: 
+  waves:
+  - triggeredByTime: 0
+    timeTriggerMin: 5
+    timeTriggerMax: 6
+    spawnEnemiesOverTime: 1
+    enemySpawnDuration: 3
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}

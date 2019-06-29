@@ -12,6 +12,13 @@ public abstract class Enemy : MonoBehaviour
         protected set => moveSpeed = value;
     }
 
+    [Range(1, 10)] [SerializeField] protected int startingHealth;
+    public int StartingHealth
+    {
+        get => startingHealth;
+        protected set => startingHealth = Mathf.Clamp(value, 0, int.MaxValue);
+    }
+
     [Range(1, 10)] protected int health;
     public int Health
     {
@@ -23,18 +30,25 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    [Range(1, 10)] [SerializeField] protected int startingHealth;
-    public int StartingHealth
-    {
-        get => startingHealth;
-        protected set => startingHealth = Mathf.Clamp(value, 0, int.MaxValue);
-    }
-
     protected bool stunned;
     public bool Stunned
     {
         get => stunned;
         protected set => stunned = value;
+    }
+
+    protected GameObject stunnedGameobject;
+    public GameObject StunnedGameobject
+    {
+        get => stunnedGameobject;
+        protected set => stunnedGameobject = value;
+    }
+
+    protected Animator animator;
+    public Animator Animator
+    {
+        get => animator;
+        protected set => animator = value;
     }
 
     protected Transform target;
@@ -60,8 +74,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        Animator = GetComponent<Animator>();
         GetPlayerReferences();
         Health = StartingHealth;
+        StunnedGameobject = transform.Find("StunnedEnemy").gameObject;
+        StunnedGameobject.SetActive(false);
     }
 
     protected virtual void Start()
@@ -124,12 +141,20 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Stun()
     {
+        if (Stunned == true) return;
         Stunned = true;
+        StunnedGameobject.SetActive(Stunned);
+        Target = null;
+        Animator.SetFloat("speedMod", 0f);
     }
 
     public virtual void Recover()
     {
+        if (Stunned == false) return;
         Stunned = false;
+        StunnedGameobject.SetActive(Stunned);
+        Target = FindTarget();
+        Animator.SetFloat("speedMod", 1f);
     }
 
     protected virtual void Die()

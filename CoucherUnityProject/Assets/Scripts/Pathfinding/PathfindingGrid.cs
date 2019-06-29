@@ -32,15 +32,15 @@ public class PathfindingGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        var gridSize = new Vector3(width, height, 0f);
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
-        if (Map == null) return;
-        Gizmos.color = Color.black;
-        foreach (var node in Map)
-        {
-            Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
-        }
+        //var gridSize = new Vector3(width, height, 0f);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
+        //if (Map == null) return;
+        //Gizmos.color = Color.black;
+        //foreach (var node in Map)
+        //{
+        //    Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
+        //}
     }
 
     private void CreateGrid()

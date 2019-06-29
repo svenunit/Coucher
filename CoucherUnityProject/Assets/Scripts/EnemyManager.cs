@@ -19,9 +19,18 @@ public class EnemyManager : MonoBehaviour, IListener
     [Header("Enemy Prefabs")]
     [SerializeField] private Enemy BasicEnemyPrefab;
 
+    [Header("Enemy Level Data")]
+    [SerializeField] private EnemyLevelData[] enemyLevelData;
+    private int currentLevelIndex = 0;
+    private EnemyLevelData currentEnemyLevelData;
+    private Wave currentWave;
+    private int waveIndex = 0;
+
     public List<Enemy> Enemies { get; private set; }
 
     private Collider2D[] positionCheckColliders = new Collider2D[1];
+
+    private Coroutine spawnWaveCoroutine;
 
     private void Awake()
     {
@@ -41,7 +50,8 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void Start()
     {
-
+        currentEnemyLevelData = enemyLevelData[0];
+        currentWave = currentEnemyLevelData.Waves[waveIndex];
     }
 
     private void Update()
@@ -56,22 +66,33 @@ public class EnemyManager : MonoBehaviour, IListener
                 SpawnEnemy(BasicEnemyPrefab, pos);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //foreach (var enemy in Enemies)
+            //    enemy.Stun();
+            spawnWaveCoroutine = StartCoroutine(SpawnWave(currentWave));
+        }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            //foreach (var enemy in Enemies)
+            //    enemy.Recover();
+        }
     }
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(gridOrigin, gridSize);
-        //if (SpawnGrid != null)
-        //{
-        //    foreach (var posArray in SpawnGrid)
-        //    {
-        //        foreach (var pos in posArray)
-        //        {
-        //            Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
-        //        }
-        //    }
-        //}
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(gridOrigin, gridSize);
+        if (SpawnGrid != null)
+        {
+            foreach (var posArray in SpawnGrid)
+            {
+                foreach (var pos in posArray)
+                {
+                    Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
+                }
+            }
+        }
     }
 
     private void OnEnemyDied(Enemy enemy)
@@ -80,8 +101,21 @@ public class EnemyManager : MonoBehaviour, IListener
         Destroy(enemy.gameObject);
         if (Enemies.Count == 0)
         {
-            EventManager.AllEnemiesDead.RaiseEvent();
+            if (WavesLeft(currentEnemyLevelData) == true)
+            {
+                currentWave = currentEnemyLevelData.Waves[waveIndex];
+                waveIndex++;
+                spawnWaveCoroutine = StartCoroutine(SpawnWave(currentWave));
+            }
+            else
+                EventManager.AllEnemiesDead.RaiseEvent();
         }
+    }
+
+    private bool WavesLeft(EnemyLevelData currentEnemyLevelData)
+    {
+        if (waveIndex < currentEnemyLevelData.Waves.Length) return true;
+        else return false;
     }
 
     private void InitGrid()
@@ -116,9 +150,38 @@ public class EnemyManager : MonoBehaviour, IListener
         else return false;
     }
 
+
+    public IEnumerator SpawnWave(Wave wave)
+    {
+        float delayAfterEachSpawn = wave.EnemySpawnDuration / wave.EnemiesToSpawn.Length;
+        foreach (var enemy in wave.EnemiesToSpawn)
+        {
+            Vector2 spawnPos = FindEnemySpawnPosition();
+            SpawnEnemy(enemy, spawnPos);
+            if (wave.SpawnEnemiesOverTime == true)
+                yield return new WaitForSeconds(delayAfterEachSpawn);
+        }
+        yield return null;
+        spawnWaveCoroutine = null;
+    }
+
     public void SpawnEnemy(Enemy enemyToSpawn, Vector2 pos)
     {
         Enemies.Add(Instantiate(enemyToSpawn, pos, Quaternion.identity));
+    }
+
+    private Vector2 FindEnemySpawnPosition()
+    {
+        int x = UnityEngine.Random.Range(0, SpawnGrid.Length - 1);
+        int y = UnityEngine.Random.Range(0, SpawnGrid[0].Length - 1);
+        Vector2 spawnPos = SpawnGrid[x][y];
+        while (PositionIsOccupied(spawnPos) == true)
+        {
+            x = UnityEngine.Random.Range(0, SpawnGrid.Length - 1);
+            y = UnityEngine.Random.Range(0, SpawnGrid[0].Length - 1);
+            spawnPos = SpawnGrid[x][y];
+        }
+        return spawnPos;
     }
 
     private bool PositionIsOccupied(Vector2 position)
