@@ -10,9 +10,9 @@ public class Node
 
     public bool Walkable { get; set; }
 
-    public float GCost { get; set; }
-    public float HCost { get; set; }
-    public float FCost => GCost + HCost;
+    public int GCost { get; set; }
+    public int HCost { get; set; }
+    public int FCost => GCost + HCost;
 
     public Node ParentNode { get; set; }
 
