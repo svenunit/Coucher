@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 1ef9dd559346d884597efda30700b6c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -122,6 +122,8 @@ MonoBehaviour:
   dashCooldown: 1
   indicator: {fileID: 8702703652020440072}
   dashlineP1: {fileID: 0}
+  dashlineP1Collider: {fileID: 0}
+  dashlineP2Collider: {fileID: 0}
   dashlineP2: {fileID: 0}
   keyboardMovement: 0
 --- !u!1 &8702703652020440073
@@ -191,7 +193,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 0116f8e3051effa4ea22a0f64bf1f705, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

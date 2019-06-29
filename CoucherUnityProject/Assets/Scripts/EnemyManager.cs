@@ -119,9 +119,17 @@ public class EnemyManager : MonoBehaviour, IListener
             TrySpawnNextWave();
     }
 
-    private void OnNewLevelStarted(int levelIndex)
+    private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
     {
-        InitLevel(levelIndex);
+        // Adjust position of enemy spawn grid and pathfinding grid before init of level.
+        for (int x = 0; x < SpawnGrid.Length; x++)
+        {
+            for (int y = 0; y < SpawnGrid[x].Length; y++)
+            {
+                SpawnGrid[x][y] += levelInfo.levelCenter;
+            }
+        }
+        InitLevel(levelInfo.levelIndex);
     }
 
     private bool WavesLeft(EnemyLevelData currentEnemyLevelData)
@@ -253,6 +261,6 @@ public class EnemyManager : MonoBehaviour, IListener
         if (nextWaveTimer > nextWave.TimeTriggerMin)
         {
             TrySpawnNextWave();
-        }   
+        }
     }
 }

@@ -109,6 +109,21 @@ public abstract class Enemy : MonoBehaviour
         set => player2 = value;
     }
 
+    protected DashlineBehaviour collidingPlayer;
+    public DashlineBehaviour CollidingPlayer
+    {
+        get => collidingPlayer;
+        protected set => collidingPlayer = value;
+    }
+
+    protected DashlineBehaviour playerHitByMostRecently;
+    public DashlineBehaviour PlayerHitByMostRecently
+    {
+        get => playerHitByMostRecently;
+        protected set => playerHitByMostRecently = value;
+    }
+
+
     protected virtual void Awake()
     {
         Alive = true;
@@ -132,6 +147,24 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         PursueTarget();
+    }
+
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        CollidingPlayer = c.GetComponent<DashlineBehaviour>();
+        if (CollidingPlayer != null && CollidingPlayer != PlayerHitByMostRecently)
+        {
+            PlayerHitByMostRecently = CollidingPlayer;
+            OnHitByPlayerDash(1);
+        }
+        //else if (CollidingPlayer != null && CollidingPlayer == PlayerHitByMostRecently)
+        //{
+        //    print("Hit by the same player again!");
+        //}
+        //else if (CollidingPlayer == null)
+        //{
+        //    print("CollidingPlayer == null");
+        //}
     }
 
     private void OnDrawGizmos()
