@@ -30,6 +30,7 @@ public class LevelExit : MonoBehaviour
             player._playerCanMove = false;
             players.Add(player);
             EventManager.PlayerEnteredExit.RaiseEvent();
+            player.GetComponent<SpriteRenderer>().enabled = false;
             print("PlayerEnteredExit");
         }
     }

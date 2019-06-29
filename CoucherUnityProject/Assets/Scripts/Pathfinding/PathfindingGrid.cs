@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathfindingGrid : MonoBehaviour
+public class PathfindingGrid : MonoBehaviour,IListener
 {
     [Header("Grid Settings")]
     [SerializeField] private Transform gridLowerLeftCornerTransform;
@@ -20,6 +21,16 @@ public class PathfindingGrid : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        EventManager.NewLevelStarted.AddListener(this, OnNewLevelStarted);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.NewLevelStarted.RemoveListener(this);
+    }
+
     void Start()
     {
         CreateGrid();
@@ -27,20 +38,31 @@ public class PathfindingGrid : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 
     private void OnDrawGizmos()
     {
-        //var gridSize = new Vector3(width, height, 0f);
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
-        //if (Map == null) return;
-        //Gizmos.color = Color.black;
-        //foreach (var node in Map)
-        //{
-        //    Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
-        //}
+        var gridSize = new Vector3(width, height, 0f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(gridLowerLeftCornerTransform.position + (gridSize * .5f), gridSize);
+        if (Map == null) return;
+        Gizmos.color = Color.black;
+        foreach (var node in Map)
+        {
+            Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
+        }
+    }
+
+    private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                //Map[x, y].WorldSpacePosition 
+            }
+        }
     }
 
     private void CreateGrid()
@@ -63,6 +85,7 @@ public class PathfindingGrid : MonoBehaviour
         int y = Mathf.RoundToInt(worldSpacePos.y / nodeSize);
         x = Mathf.Clamp(x, 0, width - 1);
         y = Mathf.Clamp(y, 0, height - 1);
+        Debug.LogWarning(x + " //  " + y);
         return Map[x, y];
     }
 

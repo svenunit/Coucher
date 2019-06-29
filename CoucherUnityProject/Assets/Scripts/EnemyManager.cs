@@ -83,11 +83,7 @@ public class EnemyManager : MonoBehaviour, IListener
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            //foreach (var enemy in Enemies)
-            //    enemy.Stun();
-
             TrySpawnNextWave();
-
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -98,18 +94,18 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(gridOrigin, gridSize);
-        if (SpawnGrid != null)
-        {
-            foreach (var posArray in SpawnGrid)
-            {
-                foreach (var pos in posArray)
-                {
-                    Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
-                }
-            }
-        }
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(gridOrigin, gridSize);
+        //if (SpawnGrid != null)
+        //{
+        //    foreach (var posArray in SpawnGrid)
+        //    {
+        //        foreach (var pos in posArray)
+        //        {
+        //            Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
+        //        }
+        //    }
+        //}
     }
 
     private void OnEnemyDied(Enemy enemy)
@@ -122,6 +118,7 @@ public class EnemyManager : MonoBehaviour, IListener
     private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
     {
         // Adjust position of enemy spawn grid and pathfinding grid before init of level.
+        gridOrigin = levelInfo.levelCenter;
         for (int x = 0; x < SpawnGrid.Length; x++)
         {
             for (int y = 0; y < SpawnGrid[x].Length; y++)
@@ -256,7 +253,7 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void HandleCurrentWaveTimer()
     {
-        if (SpawnProcessOngoing == true || nextWave == null || inbetweenLevels == true) return;
+        if (SpawnProcessOngoing == true || (nextWave == null || nextWave.TriggeredByTime == false) || inbetweenLevels == true) return;
         nextWaveTimer += Time.deltaTime;
         if (nextWaveTimer > nextWave.TimeTriggerMin)
         {
