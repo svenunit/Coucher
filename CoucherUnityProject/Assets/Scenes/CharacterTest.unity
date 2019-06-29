@@ -656,6 +656,11 @@ PrefabInstance:
       propertyPath: dashlineP1Collider
       value: 
       objectReference: {fileID: 1054599814}
+    - target: {fileID: 4549723019955458907, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: dashDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1512136047, guid: 94d8c5613ac46ce40be0b2187499fe5a, type: 3}
       propertyPath: m_Enabled
       value: 1

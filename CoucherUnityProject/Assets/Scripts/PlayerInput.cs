@@ -165,10 +165,10 @@ public class PlayerInput : MonoBehaviour
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
                 {
                     if (!dashlineP2.gameObject.activeSelf)
-                        dashlineP1.gameObject.SetActive(true);
+                        dashlineP2.gameObject.SetActive(true);
 
                     if (!dashlineP2Collider.gameObject.activeSelf)
-                        dashlineP1Collider.gameObject.SetActive(true);
+                        dashlineP2Collider.gameObject.SetActive(true);
 
                     //Destroy(currentDashLine);
 
@@ -185,7 +185,7 @@ public class PlayerInput : MonoBehaviour
 
                     Vector2[] colliderPointsP2;
 
-                    colliderPointsP2 = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
+                    colliderPointsP2 = dashlineP2Collider.GetComponent<EdgeCollider2D>().points;
                     colliderPointsP2[0] = oldPosition;
                     colliderPointsP2[1] = newPosition;
                     dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
