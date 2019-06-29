@@ -16,7 +16,7 @@ public class PlayerInput : MonoBehaviour
     float dashTimer;
     Vector3 oldPosition;
     Vector3 newPosition;
- 
+
 
 
     Vector2 _aimDirection;
@@ -24,6 +24,7 @@ public class PlayerInput : MonoBehaviour
     public float movementSpeed;
     public float rotationSpeed;
     public float dashDistance;
+    public float dashDistanceDefault = 5;
     public float dashCooldown;
     public Transform indicator;
     public LineRenderer dashlineP1;
@@ -34,11 +35,13 @@ public class PlayerInput : MonoBehaviour
 
     public LineRenderer dashlineP2;
 
+    public LayerMask wallLayer;
 
+    private Vector3? dashRayHitpoint;
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
-   
+
 
 
 
@@ -57,8 +60,8 @@ public class PlayerInput : MonoBehaviour
     }
     private void FixedUpdate()
     {
-   
-            
+
+
 
         if (keyboardMovement)
         {
@@ -66,7 +69,7 @@ public class PlayerInput : MonoBehaviour
             _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber + "K") * movementSpeed * Time.deltaTime;
 
         }
-        else if(_playerCanMove)
+        else if (_playerCanMove)
         {
 
             _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber) * movementSpeed * Time.deltaTime;
@@ -98,7 +101,7 @@ public class PlayerInput : MonoBehaviour
             _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
             _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
 
-          
+
             if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
             {
                 indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
@@ -107,6 +110,16 @@ public class PlayerInput : MonoBehaviour
         }
 
 
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        if (dashRayHitpoint != null)
+        {
+            Gizmos.DrawWireSphere(dashRayHitpoint.Value, .25f);
+        }
     }
 
     public int getPlayerNumber()
@@ -121,9 +134,21 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleDash()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, indicator.position, dashDistance);
-        Debug.DrawLine(transform.position, hit.point, Color.white);
-        Debug.Log(hit.collider);
+        dashDistance = dashDistanceDefault;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (indicator.position - transform.position).normalized, dashDistance, wallLayer);
+        Debug.DrawRay(transform.position, (indicator.position - transform.position).normalized * dashDistance);
+        //Debug.DrawLine(transform.position, (indicator.position - transform.position) * dashDistance, Color.white);
+        if (hit.collider != null)
+        {
+            dashRayHitpoint = hit.point;
+            var distToHitPoint = Vector2.Distance(transform.position, hit.point);
+            dashDistance = distToHitPoint;
+        }
+        else dashRayHitpoint = null;
+        //if (dashRayHitpoint != null)
+        //{
+        //    Debug.LogWarning(dashRayHitpoint);
+        //}
         Debug.Log(indicator.position);
 
 
@@ -143,20 +168,18 @@ public class PlayerInput : MonoBehaviour
 
                     //Destroy(currentDashLine);
 
-                  
-                   
-                    
+
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
 
-                    transform.Translate( (Vector3)_aimDirection * dashDistance);
-                    // GetComponent<Rigidbody2D>().velocity=(Vector3)_aimDirection * dashDistance;
+                    transform.Translate((Vector3)_aimDirection * dashDistance);
+                   // GetComponent<Rigidbody2D>().velocity = (Vector3)_aimDirection * dashDistance;
 
-                   
+
 
 
                     newPosition = transform.position;
-                    
+
                     dashlineP1.SetPosition(0, oldPosition);
                     dashlineP1.SetPosition(1, newPosition);
 
@@ -173,11 +196,11 @@ public class PlayerInput : MonoBehaviour
                 }
                 else
                 {
-                   
+
                     dashTimer -= Time.deltaTime;
                 }
                 break;
-                ////Player 2 Movement
+            ////Player 2 Movement
             case 2:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
                 {
@@ -227,6 +250,6 @@ public class PlayerInput : MonoBehaviour
 
 
     }
-       
-    
+
+
 }
