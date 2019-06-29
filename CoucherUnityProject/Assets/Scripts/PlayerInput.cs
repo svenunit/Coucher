@@ -188,7 +188,7 @@ public class PlayerInput : MonoBehaviour
                     colliderPointsP2 = dashlineP2Collider.GetComponent<EdgeCollider2D>().points;
                     colliderPointsP2[0] = oldPosition;
                     colliderPointsP2[1] = newPosition;
-                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
+                    dashlineP2Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
 
 
 
