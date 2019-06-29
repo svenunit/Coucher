@@ -6,7 +6,8 @@ public class PlayerInput : MonoBehaviour
 {
     [SerializeField]
     int _playerNumber;
-
+    [SerializeField]
+    float dashLength;
     float _verticalAxes;
     float _horizontalAxes;
     float _turnV;
@@ -15,6 +16,7 @@ public class PlayerInput : MonoBehaviour
     float dashTimer;
     Vector3 oldPosition;
     Vector3 newPosition;
+    bool _playerCanMove { get; set; }
    
 
 
@@ -41,7 +43,7 @@ public class PlayerInput : MonoBehaviour
 
     private void Start()
     {
-       
+        _playerCanMove = true;
         //DEBUG
         /*
         string[] controller = Input.GetJoystickNames();
@@ -54,6 +56,15 @@ public class PlayerInput : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if(GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+        {
+            _playerCanMove=true;
+        }
+        else
+        {
+            _playerCanMove = false;
+        }
+            
 
         if (keyboardMovement)
         {
@@ -61,7 +72,7 @@ public class PlayerInput : MonoBehaviour
             _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber + "K") * movementSpeed * Time.deltaTime;
 
         }
-        else
+        else if(_playerCanMove)
         {
 
             _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber) * movementSpeed * Time.deltaTime;
@@ -116,8 +127,11 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleDash()
     {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, (Vector3)_aimDirection * dashDistance, dashDistance);
+        Debug.DrawLine(indicator.transform.position, hit.point, Color.white);
+        Debug.Log(hit.collider);
 
-
+        
 
 
         switch (_playerNumber)
@@ -133,11 +147,17 @@ public class PlayerInput : MonoBehaviour
 
                     //Destroy(currentDashLine);
 
-
+                  
+                   
+                    
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
 
-                    transform.position += (Vector3)_aimDirection * dashDistance;
+                    transform.Translate( (Vector3)_aimDirection * dashDistance);
+                    // GetComponent<Rigidbody2D>().velocity=(Vector3)_aimDirection * dashDistance;
+
+                   
+
 
                     newPosition = transform.position;
                     
@@ -157,10 +177,11 @@ public class PlayerInput : MonoBehaviour
                 }
                 else
                 {
+                   
                     dashTimer -= Time.deltaTime;
                 }
                 break;
-
+                ////Player 2 Movement
             case 2:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
                 {
@@ -203,7 +224,10 @@ public class PlayerInput : MonoBehaviour
         }
 
         if (dashTimer < 0)
+        {
             dashTimer = 0;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        }
 
 
     }

@@ -591,6 +591,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player1
       objectReference: {fileID: 0}
+    - target: {fileID: 4549723019955458906, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4549723019955458885, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -659,7 +664,17 @@ PrefabInstance:
     - target: {fileID: 4549723019955458907, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
       propertyPath: dashDistance
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549723019955458907, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: dashLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549723019430046453, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1512136047, guid: 94d8c5613ac46ce40be0b2187499fe5a, type: 3}
       propertyPath: m_Enabled
