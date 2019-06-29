@@ -16,8 +16,7 @@ public class PlayerInput : MonoBehaviour
     float dashTimer;
     Vector3 oldPosition;
     Vector3 newPosition;
-    bool _playerCanMove { get; set; }
-   
+ 
 
 
     Vector2 _aimDirection;
@@ -30,6 +29,8 @@ public class PlayerInput : MonoBehaviour
     public LineRenderer dashlineP1;
     public EdgeCollider2D dashlineP1Collider;
     public EdgeCollider2D dashlineP2Collider;
+    public bool _playerCanMove;
+
 
     public LineRenderer dashlineP2;
 
