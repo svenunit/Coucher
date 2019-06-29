@@ -26,6 +26,8 @@ public class PlayerInput : MonoBehaviour
     public float dashCooldown;
     public Transform indicator;
     public LineRenderer dashlineP1;
+    public EdgeCollider2D dashlineP1Collider;
+
     public LineRenderer dashlineP2;
 
 
@@ -39,12 +41,13 @@ public class PlayerInput : MonoBehaviour
     private void Start()
     {
        
-
+        //DEBUG
+        /*
         string[] controller = Input.GetJoystickNames();
         for(int i = 0; i < controller.Length; i++)
         {
             print(i + " " + controller[i]);
-        }
+        }*/
         if (_playerNumber == 0)
             _playerNumber++;
     }
@@ -140,6 +143,16 @@ public class PlayerInput : MonoBehaviour
                     
                     dashlineP1.SetPosition(0, oldPosition);
                     dashlineP1.SetPosition(1, newPosition);
+
+                    Vector2[] colliderPoints;
+
+                    colliderPoints = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
+                    colliderPoints[0] = oldPosition;
+                    colliderPoints[1] = newPosition;
+                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPoints;
+
+
+
 
                 }
                 else
