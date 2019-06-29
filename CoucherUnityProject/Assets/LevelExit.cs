@@ -13,7 +13,7 @@ public class LevelExit : MonoBehaviour
     {
         players = new HashSet<PlayerInput>();
         blockerCollider = transform.Find("BlockerCollider").GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = transform.Find("LevelExitSprite").GetComponent<SpriteRenderer>();
     }
 
     public void OpenExit()
