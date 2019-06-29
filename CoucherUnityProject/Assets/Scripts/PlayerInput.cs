@@ -18,6 +18,7 @@ public class PlayerInput : MonoBehaviour
     float _aimAngle;
     public float movementSpeed;
     public float rotationSpeed;
+    public float dashDistance;
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
@@ -59,7 +60,7 @@ public class PlayerInput : MonoBehaviour
 
 
         }
-     
+        HandleDash();
         transform.Translate(_horizontalAxes, _verticalAxes, 0, Space.World);
         if (_turnV != 0 && _turnH != 0)
 
@@ -80,4 +81,12 @@ public class PlayerInput : MonoBehaviour
         _playerNumber = playerNumber;
     }
 
+    private void HandleDash()
+    {
+        if(Input.GetAxis("RTriggerP" + _playerNumber)>0){
+            transform.position += (Vector3)_aimDirection * dashDistance;
+           
+        }
+        Debug.Log(Input.GetAxis("RTriggerP" + _playerNumber));
+    }
 }
