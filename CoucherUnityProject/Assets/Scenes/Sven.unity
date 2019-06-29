@@ -1137,7 +1137,7 @@ MonoBehaviour:
   gridSpacing: 1
   basicEnemyPrefab: {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa,
     type: 3}
-  enemySpawnIndicator: {fileID: 1530524524411428483, guid: 1b879f88f8af4fa48a6c74728e6dd69e,
+  enemySpawnIndicator: {fileID: 8000621797294048742, guid: cf4ed25a4cf0cf1438b2e6ea2aec46ee,
     type: 3}
   basicEnemyDeathPSPrefab: {fileID: 3794909804827260282, guid: c96c5b607650f1c4bbe781215fed9963,
     type: 3}

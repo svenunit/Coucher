@@ -212,8 +212,13 @@ public class EnemyManager : MonoBehaviour, IListener
     {
         // Spawn enemy spawn indicator.
         var indicator = Instantiate(enemySpawnIndicator, pos, Quaternion.identity);
-        yield return new WaitForSeconds(enemySpawnDelay);
+        Animator animator = indicator.GetComponent<Animator>();
+        do
+        {
+            yield return null;
+        } while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f);
         // Spawn enemy and remove indicator.
+        indicator.SetActive(false);
         Enemies.Add(Instantiate(enemyToSpawn, pos, Quaternion.identity));
         Destroy(indicator);
     }
