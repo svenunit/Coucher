@@ -569,36 +569,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8702703651777801462, guid: 6450a8d5d4f379448a1cf6d66d28d053,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 1ef9dd559346d884597efda30700b6c1,
-        type: 3}
-    - target: {fileID: 8702703651777801462, guid: 6450a8d5d4f379448a1cf6d66d28d053,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8702703651777801462, guid: 6450a8d5d4f379448a1cf6d66d28d053,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8702703651777801462, guid: 6450a8d5d4f379448a1cf6d66d28d053,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8702703651777801352, guid: 6450a8d5d4f379448a1cf6d66d28d053,
         type: 3}
       propertyPath: dashlineP2
       value: 
       objectReference: {fileID: 135320967}
-    - target: {fileID: 8702703652020440072, guid: 6450a8d5d4f379448a1cf6d66d28d053,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.506
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6450a8d5d4f379448a1cf6d66d28d053, type: 3}
