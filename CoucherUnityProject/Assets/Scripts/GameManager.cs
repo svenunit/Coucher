@@ -50,14 +50,14 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator StartNextLevelRoutine()
     {
-        // Move camera to next room
+        // Move camera to room
 
         yield return null;
-        StartNextLevel();
+        EventManager.NewLevelStarted.RaiseEvent(currentLevelIndex);
+        currentLevelIndex++;
     }
     private void StartNextLevel()
     {
-        EventManager.NewLevelStarted.RaiseEvent(currentLevelIndex);
-        currentLevelIndex++;
+        StartCoroutine(StartNextLevelRoutine());
     }
 }

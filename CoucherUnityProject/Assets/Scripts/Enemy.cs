@@ -191,6 +191,14 @@ public abstract class Enemy : MonoBehaviour
         Animator.SetFloat("speedMod", 0f);
     }
 
+    public virtual void OnHitByPlayerDash(int damageAmount)
+    {
+        if (Stunned == false)
+            Stun();
+        else
+            TakeDamage(damageAmount);
+    }
+
     public virtual void Recover()
     {
         if (Stunned == false) return;
