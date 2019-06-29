@@ -13,6 +13,9 @@ public class PlayerInput : MonoBehaviour
     float _turnH;
     Quaternion _aimRotation;
     float dashTimer;
+    Vector3 oldPosition;
+    Vector3 newPosition;
+   
 
 
     Vector2 _aimDirection;
@@ -21,6 +24,11 @@ public class PlayerInput : MonoBehaviour
     public float rotationSpeed;
     public float dashDistance;
     public float dashCooldown;
+    public Transform indicator;
+    public LineRenderer dashlineP1;
+    public LineRenderer dashlineP2;
+
+
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
@@ -30,6 +38,8 @@ public class PlayerInput : MonoBehaviour
 
     private void Start()
     {
+       
+
         string[] controller = Input.GetJoystickNames();
         for(int i = 0; i < controller.Length; i++)
         {
@@ -43,9 +53,9 @@ public class PlayerInput : MonoBehaviour
 
         if (keyboardMovement)
         {
-            _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber+"K") * movementSpeed * Time.deltaTime;
-            _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber+"K")  * movementSpeed * Time.deltaTime;
-            
+            _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber + "K") * movementSpeed * Time.deltaTime;
+            _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber + "K") * movementSpeed * Time.deltaTime;
+
         }
         else
         {
@@ -53,26 +63,47 @@ public class PlayerInput : MonoBehaviour
             _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber) * movementSpeed * Time.deltaTime;
             _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber) * movementSpeed * Time.deltaTime;
 
-            _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
-            _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+
 
             _aimDirection = new Vector2(_turnH, _turnV);
             _aimAngle = Mathf.Atan2(_turnH, _turnV) * Mathf.Rad2Deg;
 
 
 
+
+
         }
         HandleDash();
         transform.Translate(_horizontalAxes, _verticalAxes, 0, Space.World);
-        if (_turnV != 0 && _turnH != 0)
+        /* if (_turnV != 0 && _turnH != 0)
 
+         {
+             _aimRotation = Quaternion.AngleAxis(_aimAngle, Vector3.forward);
+             transform.rotation = Quaternion.Slerp(transform.rotation, _aimRotation, rotationSpeed * Time.deltaTime);
+         }
+         //Debug.Log(Input.GetAxis("VerticalRightStickP" + _playerNumber) + "|"+Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+         */
+
+        if (_turnV != null && _turnH != null)
         {
-            _aimRotation = Quaternion.AngleAxis(_aimAngle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation, _aimRotation, rotationSpeed * Time.deltaTime);
+            _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
+            _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+
+            //first make sure both stick vals are higher than the tolerance
+
+
+            //now check if both together are greater than one (1) so either one stick 
+            //is at max or both are close to the minimum tolerance
+            if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
+            {
+                indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
+            }
+
         }
-        //Debug.Log(Input.GetAxis("VerticalRightStickP" + _playerNumber) + "|"+Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+
 
     }
+
     public int getPlayerNumber()
     {
         return _playerNumber;
@@ -86,20 +117,70 @@ public class PlayerInput : MonoBehaviour
     private void HandleDash()
     {
 
-        
-        if (Input.GetAxis("RTriggerP" + _playerNumber)>0 && dashTimer == 0){
-            dashTimer = dashCooldown;
-            transform.position += (Vector3)_aimDirection * dashDistance;
 
-        }
-        else
+
+
+        switch (_playerNumber)
         {
-            dashTimer -= Time.deltaTime;
+            case 1:
+                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
+                {
+                    if (!dashlineP1.gameObject.activeSelf)
+                        dashlineP1.gameObject.SetActive(true);
+
+                    //Destroy(currentDashLine);
+
+
+                    dashTimer = dashCooldown;
+                    oldPosition = transform.position;
+
+                    transform.position += (Vector3)_aimDirection * dashDistance;
+
+                    newPosition = transform.position;
+                    
+                    dashlineP1.SetPosition(0, oldPosition);
+                    dashlineP1.SetPosition(1, newPosition);
+
+                }
+                else
+                {
+                    dashTimer -= Time.deltaTime;
+                }
+                break;
+
+            case 2:
+                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
+                {
+                    if (!dashlineP2.gameObject.activeSelf)
+                        dashlineP2.gameObject.SetActive(true);
+
+                    //Destroy(currentDashLine);
+
+
+                    dashTimer = dashCooldown;
+                    oldPosition = transform.position;
+
+                    transform.position += (Vector3)_aimDirection * dashDistance;
+
+                    newPosition = transform.position;
+
+                    dashlineP2.SetPosition(0, oldPosition);
+                    dashlineP2.SetPosition(1, newPosition);
+
+                }
+                else
+                {
+                    dashTimer -= Time.deltaTime;
+                }
+                break;
+
         }
 
         if (dashTimer < 0)
             dashTimer = 0;
-        
-        Debug.Log(dashTimer);
+
+
     }
+       
+    
 }
