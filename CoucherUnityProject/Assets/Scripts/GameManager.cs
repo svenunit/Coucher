@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour, IListener
     private int playerReachedExitCounter = 0;
 
     [SerializeField] private Tilemap[] levelTilemaps;
-    [SerializeField] private Transform[] levelExits;
+    [SerializeField] private LevelExit[] levelExits;
     [Header("Camera movement")]
     [SerializeField] private float camGotoLevelAnimDuration;
     [SerializeField] private AnimationCurve camGotoLevelAnimCurve;
@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour, IListener
     [SerializeField] private Tile doorOpenTileTopWall;
     [SerializeField] private Tile doorClosedTileTopWall;
 
-    private Tile doorOpenTileRightWall;
-    private Tile doorClosedTileRightWall;
 
     private PlayerInput[] players;
 
@@ -52,7 +50,10 @@ public class GameManager : MonoBehaviour, IListener
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            StartNextLevel();
+        }
     }
 
     private void OnAllWavesDone()
@@ -68,7 +69,7 @@ public class GameManager : MonoBehaviour, IListener
     private IEnumerator EndofLevelRoutine()
     {
         // Open door
-        levelExits[currentLevelIndex - 1].GetComponent<LevelExit>().OpenExit();
+        levelExits[currentLevelIndex - 1].OpenExit();
         do
         {
             yield return null;
@@ -98,8 +99,13 @@ public class GameManager : MonoBehaviour, IListener
         Vector3 trgPosPlayers = levelTilemaps[currentLevelIndex].gameObject.transform.position;
         trgPosCam.z = -10f;
         yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, trgPosCam, camGotoLevelAnimDuration, camGotoLevelAnimCurve));
+        // Move Players
         players[0].transform.position = trgPosPlayers + (Vector3.right * 2f);
         players[1].transform.position = trgPosPlayers + (Vector3.left * 2f);
+        players[0]._playerCanMove = true;
+        players[1]._playerCanMove = true;
+        players[0].GetComponent<SpriteRenderer>().enabled = true;
+        players[1].GetComponent<SpriteRenderer>().enabled = true;
         EventManager.NewLevelStarted.RaiseEvent((currentLevelIndex, levelTilemaps[currentLevelIndex].transform.position));
         currentLevelIndex++;
     }

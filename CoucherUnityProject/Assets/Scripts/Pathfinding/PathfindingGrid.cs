@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathfindingGrid : MonoBehaviour
+public class PathfindingGrid : MonoBehaviour,IListener
 {
     [Header("Grid Settings")]
     [SerializeField] private Transform gridLowerLeftCornerTransform;
@@ -20,6 +21,16 @@ public class PathfindingGrid : MonoBehaviour
         Instance = this;
     }
 
+    private void OnEnable()
+    {
+        EventManager.NewLevelStarted.AddListener(this, OnNewLevelStarted);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.NewLevelStarted.RemoveListener(this);
+    }
+
     void Start()
     {
         CreateGrid();
@@ -27,7 +38,7 @@ public class PathfindingGrid : MonoBehaviour
 
     void Update()
     {
-
+        
     }
 
     private void OnDrawGizmos()
@@ -41,6 +52,17 @@ public class PathfindingGrid : MonoBehaviour
         //{
         //    Gizmos.DrawWireCube(node.WorldSpacePosition, new Vector3(nodeSize - .1f, nodeSize - .1f, nodeSize - .1f));
         //}
+    }
+
+    private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
+    {
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                //Map[x, y].WorldSpacePosition 
+            }
+        }
     }
 
     private void CreateGrid()
