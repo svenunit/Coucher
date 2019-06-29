@@ -92,7 +92,7 @@ public class EnemyManager : MonoBehaviour, IListener
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             foreach (var enemy in Enemies.ToArray())
-                enemy.TakeDamage(1);
+                enemy.OnHitByPlayerDash(1);
         }
     }
 
@@ -180,6 +180,7 @@ public class EnemyManager : MonoBehaviour, IListener
         if (WavesLeft(currentEnemyLevelData) == false)
         {
             EventManager.AllWavesDone.RaiseEvent();
+            print("AllWavesDone");
             return;
         }
         currentWave = currentEnemyLevelData.Waves[waveIndex];

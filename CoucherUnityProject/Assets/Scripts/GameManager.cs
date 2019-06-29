@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class GameManager : MonoBehaviour, IListener
 {
@@ -10,9 +11,12 @@ public class GameManager : MonoBehaviour, IListener
 
     private int currentLevelIndex = 0;
 
+    [SerializeField] private Tilemap[] levelTilemaps;
+
     private void Awake()
     {
         cam = Camera.main;
+        print(levelTilemaps[0].size);
     }
 
     private void OnEnable()
@@ -37,6 +41,11 @@ public class GameManager : MonoBehaviour, IListener
 
     private void OnAllWavesDone()
     {
+        // Move cam to door
+
+        // Open door
+
+        // More things?
 
     }
 
@@ -48,6 +57,11 @@ public class GameManager : MonoBehaviour, IListener
         StartNextLevel();
     }
 
+    private void StartNextLevel()
+    {
+        StartCoroutine(StartNextLevelRoutine());
+    }
+
     private IEnumerator StartNextLevelRoutine()
     {
         // Move camera to room
@@ -56,8 +70,5 @@ public class GameManager : MonoBehaviour, IListener
         EventManager.NewLevelStarted.RaiseEvent(currentLevelIndex);
         currentLevelIndex++;
     }
-    private void StartNextLevel()
-    {
-        StartCoroutine(StartNextLevelRoutine());
-    }
+
 }

@@ -260,6 +260,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 231025599}
+  - component: {fileID: 231025600}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -281,6 +282,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &231025600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 231025598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54316b736f5f7724789bf121986bbf51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelTilemaps:
+  - {fileID: 269816587}
 --- !u!1 &269816584
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +309,7 @@ GameObject:
   - component: {fileID: 269816586}
   - component: {fileID: 269816588}
   m_Layer: 0
-  m_Name: TilemapBorders
+  m_Name: TilemapBordersLevel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1525,7 +1540,7 @@ GameObject:
   - component: {fileID: 1841988218}
   - component: {fileID: 1841988217}
   m_Layer: 0
-  m_Name: TilemapGround
+  m_Name: TilemapGroundLevel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
