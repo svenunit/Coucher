@@ -57,14 +57,7 @@ public class PlayerInput : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if(GetComponent<Rigidbody2D>().velocity == Vector2.zero)
-        {
-            _playerCanMove=true;
-        }
-        else
-        {
-            _playerCanMove = false;
-        }
+   
             
 
         if (keyboardMovement)
@@ -128,11 +121,13 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleDash()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, (Vector3)_aimDirection * dashDistance, dashDistance);
-        Debug.DrawLine(indicator.transform.position, hit.point, Color.white);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, indicator.position, dashDistance);
+        Debug.DrawLine(transform.position, hit.point, Color.white);
         Debug.Log(hit.collider);
+        Debug.Log(indicator.position);
 
-        
+
+
 
 
         switch (_playerNumber)
