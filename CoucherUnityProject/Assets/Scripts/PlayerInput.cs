@@ -27,6 +27,7 @@ public class PlayerInput : MonoBehaviour
     public Transform indicator;
     public LineRenderer dashlineP1;
     public EdgeCollider2D dashlineP1Collider;
+    public EdgeCollider2D dashlineP2Collider;
 
     public LineRenderer dashlineP2;
 
@@ -92,11 +93,7 @@ public class PlayerInput : MonoBehaviour
             _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
             _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
 
-            //first make sure both stick vals are higher than the tolerance
-
-
-            //now check if both together are greater than one (1) so either one stick 
-            //is at max or both are close to the minimum tolerance
+          
             if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
             {
                 indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
@@ -147,12 +144,12 @@ public class PlayerInput : MonoBehaviour
                     dashlineP1.SetPosition(0, oldPosition);
                     dashlineP1.SetPosition(1, newPosition);
 
-                    Vector2[] colliderPoints;
+                    Vector2[] colliderPointsP1;
 
-                    colliderPoints = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
-                    colliderPoints[0] = oldPosition;
-                    colliderPoints[1] = newPosition;
-                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPoints;
+                    colliderPointsP1 = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
+                    colliderPointsP1[0] = oldPosition;
+                    colliderPointsP1[1] = newPosition;
+                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
 
 
 
@@ -168,7 +165,10 @@ public class PlayerInput : MonoBehaviour
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
                 {
                     if (!dashlineP2.gameObject.activeSelf)
-                        dashlineP2.gameObject.SetActive(true);
+                        dashlineP1.gameObject.SetActive(true);
+
+                    if (!dashlineP2Collider.gameObject.activeSelf)
+                        dashlineP1Collider.gameObject.SetActive(true);
 
                     //Destroy(currentDashLine);
 
@@ -182,6 +182,16 @@ public class PlayerInput : MonoBehaviour
 
                     dashlineP2.SetPosition(0, oldPosition);
                     dashlineP2.SetPosition(1, newPosition);
+
+                    Vector2[] colliderPointsP2;
+
+                    colliderPointsP2 = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
+                    colliderPointsP2[0] = oldPosition;
+                    colliderPointsP2[1] = newPosition;
+                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
+
+
+
 
                 }
                 else
