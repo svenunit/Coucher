@@ -131,6 +131,9 @@ public class PlayerInput : MonoBehaviour
                     if (!dashlineP1.gameObject.activeSelf)
                         dashlineP1.gameObject.SetActive(true);
 
+                    if (!dashlineP1Collider.gameObject.activeSelf)
+                        dashlineP1Collider.gameObject.SetActive(true);
+
                     //Destroy(currentDashLine);
 
 
