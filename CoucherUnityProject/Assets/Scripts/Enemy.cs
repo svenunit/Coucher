@@ -19,6 +19,14 @@ public abstract class Enemy : MonoBehaviour
         protected set => startingHealth = Mathf.Clamp(value, 0, int.MaxValue);
     }
 
+    [Range(0.25f, 5f)] [SerializeField] protected float recoveryTime = 1f;
+    public float RecoveryTime
+    {
+        get => recoveryTime;
+        protected set => recoveryTime = value;
+    }
+    private float recoveryTimer = 0f;
+
     [Range(1, 10)] protected int health;
     public int Health
     {
@@ -171,6 +179,7 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         PursueTarget();
+        HandleTimedRecovery();
     }
 
     private void OnTriggerEnter2D(Collider2D c)
@@ -276,6 +285,20 @@ public abstract class Enemy : MonoBehaviour
         StunnedGameobject.SetActive(Stunned);
         Target = FindTarget();
         Animator.SetFloat("speedMod", 1f);
+        recoveryTimer = 0f;
+        PlayerHitByMostRecently = null;
+    }
+
+    private void HandleTimedRecovery()
+    {
+        if (Stunned == true)
+        {
+            recoveryTimer += Time.fixedDeltaTime;
+            if (recoveryTimer >= RecoveryTime)
+            {
+                Recover();
+            }
+        }
     }
 
     protected virtual void Die()

@@ -39,14 +39,69 @@ public class PlayerInput : MonoBehaviour
 
     private Vector3? dashRayHitpoint;
 
+    private Rigidbody2D body2d;
+
     [Header("DEBUG")]
     public bool keyboardMovement = false;
 
+    private Coroutine dashCoroutine;
+    public bool InDash => dashCoroutine != null;
+
+    private bool dashing;
+    public bool Dashing
+    {
+        get { return dashing; }
+        set
+        {
+            if (dashing != value)
+            {
+                dashing = value;
+                if (dashing == false)
+                {
+                    newPosition = transform.position;
+
+                    switch (getPlayerNumber())
+                    {
+                        case 1:
+                            dashlineP1Collider.enabled = true;
+                            dashlineP1.SetPosition(0, oldPosition);
+                            dashlineP1.SetPosition(1, newPosition);
+
+                            Vector2[] colliderPointsP1;
+
+                            colliderPointsP1 = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
+                            colliderPointsP1[0] = oldPosition;
+                            colliderPointsP1[1] = newPosition;
+                            dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
+                            break;
+                        case 2:
+                            dashlineP2Collider.enabled = true;
+                            dashlineP2.SetPosition(0, oldPosition);
+                            dashlineP2.SetPosition(1, newPosition);
+
+                            Vector2[] colliderPointsP2;
+
+                            colliderPointsP2 = dashlineP2Collider.GetComponent<EdgeCollider2D>().points;
+                            colliderPointsP2[0] = oldPosition;
+                            colliderPointsP2[1] = newPosition;
+                            dashlineP2Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
+                            break;
+                        default:
+                            break;
+                    }
+                    Debug.LogWarning("DASH ENDED");
+
+                    Invoke("DisableLineCollider", .1f);
+                }
+            }
+        }
+    }
 
 
 
     private void Start()
     {
+        body2d = GetComponent<Rigidbody2D>();
         _playerCanMove = true;
         //DEBUG
         /*
@@ -60,8 +115,8 @@ public class PlayerInput : MonoBehaviour
     }
     private void FixedUpdate()
     {
-
-
+        Dashing = body2d.velocity.magnitude > 7f;
+        if (Dashing == true) return;
 
         if (keyboardMovement)
         {
@@ -75,12 +130,16 @@ public class PlayerInput : MonoBehaviour
             _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber) * movementSpeed * Time.deltaTime;
             _horizontalAxes = Input.GetAxis("HorizontalP" + _playerNumber) * movementSpeed * Time.deltaTime;
 
-
+            _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
+            _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
 
             _aimDirection = new Vector2(_turnH, _turnV);
-            _aimAngle = Mathf.Atan2(_turnH, _turnV) * Mathf.Rad2Deg;
+            _aimAngle = Mathf.Atan2(_turnV, _turnH) * Mathf.Rad2Deg;
 
-
+            if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
+            {
+                indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
+            }
 
 
 
@@ -96,18 +155,18 @@ public class PlayerInput : MonoBehaviour
          //Debug.Log(Input.GetAxis("VerticalRightStickP" + _playerNumber) + "|"+Input.GetAxis("HorizontalRightStickP" + _playerNumber);
          */
 
-        if (_turnV != null && _turnH != null)
-        {
-            _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
-            _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+        //if (_turnV != null && _turnH != null)
+        //{
+        //    _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
+        //    _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
 
 
-            if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
-            {
-                indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
-            }
+        //    if ((Mathf.Abs(_turnH) + Mathf.Abs(_turnV)) > 1)
+        //    {
+        //        indicator.transform.localPosition = new Vector3(_turnH * rotationSpeed, -1 * -_turnV * rotationSpeed, 0);
+        //    }
 
-        }
+        //}
 
 
     }
@@ -134,6 +193,7 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleDash()
     {
+
         dashDistance = dashDistanceDefault;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, (indicator.position - transform.position).normalized, dashDistance, wallLayer);
         Debug.DrawRay(transform.position, (indicator.position - transform.position).normalized * dashDistance);
@@ -157,8 +217,9 @@ public class PlayerInput : MonoBehaviour
 
         switch (_playerNumber)
         {
+
             case 1:
-                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
+                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
                     if (!dashlineP1.gameObject.activeSelf)
                         dashlineP1.gameObject.SetActive(true);
@@ -168,30 +229,13 @@ public class PlayerInput : MonoBehaviour
 
                     //Destroy(currentDashLine);
 
-
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
 
-                    transform.Translate((Vector3)_aimDirection * dashDistance);
-                   // GetComponent<Rigidbody2D>().velocity = (Vector3)_aimDirection * dashDistance;
-
-
-
-
-                    newPosition = transform.position;
-
-                    dashlineP1.SetPosition(0, oldPosition);
-                    dashlineP1.SetPosition(1, newPosition);
-
-                    Vector2[] colliderPointsP1;
-
-                    colliderPointsP1 = dashlineP1Collider.GetComponent<EdgeCollider2D>().points;
-                    colliderPointsP1[0] = oldPosition;
-                    colliderPointsP1[1] = newPosition;
-                    dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
-
-
-
+                    //dashCoroutine = StartCoroutine(DashRoutine(_aimDirection * dashDistance));
+                    //transform.Translate((Vector3)_aimDirection * dashDistance, Space.World);
+                    //  body2d.velocity = (Vector3)_aimDirection * 10f;
+                    body2d.AddForce(_aimDirection * 60f, ForceMode2D.Impulse);
 
                 }
                 else
@@ -202,7 +246,7 @@ public class PlayerInput : MonoBehaviour
                 break;
             ////Player 2 Movement
             case 2:
-                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer == 0)
+                if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
                     if (!dashlineP2.gameObject.activeSelf)
                         dashlineP2.gameObject.SetActive(true);
@@ -216,40 +260,47 @@ public class PlayerInput : MonoBehaviour
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
 
-                    transform.position += (Vector3)_aimDirection * dashDistance;
-
-                    newPosition = transform.position;
-
-                    dashlineP2.SetPosition(0, oldPosition);
-                    dashlineP2.SetPosition(1, newPosition);
-
-                    Vector2[] colliderPointsP2;
-
-                    colliderPointsP2 = dashlineP2Collider.GetComponent<EdgeCollider2D>().points;
-                    colliderPointsP2[0] = oldPosition;
-                    colliderPointsP2[1] = newPosition;
-                    dashlineP2Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP2;
-
-
-
+                    //dashCoroutine = StartCoroutine(DashRoutine(_aimDirection * dashDistance));
+                    //transform.Translate((Vector3)_aimDirection * dashDistance, Space.World);
+                    //  body2d.velocity = (Vector3)_aimDirection * 10f;
+                    body2d.AddForce(_aimDirection * 60f, ForceMode2D.Impulse);
 
                 }
                 else
                 {
+
                     dashTimer -= Time.deltaTime;
                 }
                 break;
 
         }
-
-        if (dashTimer < 0)
-        {
-            dashTimer = 0;
-            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        }
-
-
     }
 
+    private IEnumerator DashRoutine(Vector2 trgPos)
+    {
+        Debug.LogWarning("DashRoutine");
+        //yield return StartCoroutine(Utility.MoveGameObjectRoutine(transform, trgPos, 1f));
+        while ((Vector2)transform.position != trgPos)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, trgPos, .1f);
+            yield return null;
+        }
+        dashCoroutine = null;
+    }
+
+    private void DisableLineCollider()
+    {
+        switch (getPlayerNumber())
+        {
+            case 1:
+                dashlineP1Collider.enabled = false;
+                break;
+            case 2:
+                dashlineP2Collider.enabled = false;
+                break;
+            default:
+                break;
+        }
+    }
 
 }

@@ -96,7 +96,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 11
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -121,6 +121,7 @@ MonoBehaviour:
   movementSpeed: 5
   rotationSpeed: 1
   dashDistance: 5
+  dashDistanceDefault: 5
   dashCooldown: 1
   indicator: {fileID: 8702703652020440072}
   dashlineP1: {fileID: 0}
@@ -128,6 +129,9 @@ MonoBehaviour:
   dashlineP2Collider: {fileID: 0}
   _playerCanMove: 0
   dashlineP2: {fileID: 0}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
   keyboardMovement: 0
 --- !u!70 &1602284064535381744
 CapsuleCollider2D:
