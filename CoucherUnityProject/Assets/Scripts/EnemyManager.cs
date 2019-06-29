@@ -28,13 +28,14 @@ public class EnemyManager : MonoBehaviour, IListener
     private int currentLevelIndex = 0;
     private EnemyLevelData currentEnemyLevelData;
     private Wave currentWave;
-    public Wave nextWave => waveIndex <= currentEnemyLevelData.Waves.Length - 1 ? currentEnemyLevelData.Waves[waveIndex] : null;
+    public Wave nextWave => waveIndex <= currentEnemyLevelData?.Waves?.Length - 1 ? currentEnemyLevelData.Waves[waveIndex] : null;
     private int waveIndex = 0;
 
     [Header("Enemy Spawn")]
     [Range(.1f, 2f)] [SerializeField] private float enemySpawnDelay = 1f;
 
     public bool SpawnProcessOngoing => spawnWaveCoroutine != null;
+    private bool inbetweenLevels = false;
     private float nextWaveTimer = 0f;
 
     public List<Enemy> Enemies { get; private set; }
@@ -64,7 +65,7 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void Start()
     {
-        InitLevel(0);
+
     }
 
     private void Update()
@@ -246,11 +247,11 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void HandleCurrentWaveTimer()
     {
-        if (SpawnProcessOngoing == true || nextWave == null) return;
+        if (SpawnProcessOngoing == true || nextWave == null || inbetweenLevels == true) return;
         nextWaveTimer += Time.deltaTime;
         if (nextWaveTimer > nextWave.TimeTriggerMin)
         {
             TrySpawnNextWave();
-        }
+        }   
     }
 }
