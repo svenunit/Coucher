@@ -37,6 +37,13 @@ public abstract class Enemy : MonoBehaviour
         protected set => stunned = value;
     }
 
+    protected SpriteRenderer spriteRenderer;
+    public SpriteRenderer SpriteRenderer
+    {
+        get => spriteRenderer;
+        protected set => spriteRenderer = value;
+    }
+
     protected GameObject stunnedGameobject;
     public GameObject StunnedGameobject
     {
@@ -50,6 +57,15 @@ public abstract class Enemy : MonoBehaviour
         get => animator;
         protected set => animator = value;
     }
+
+    protected ParticleSystem deathPS;
+    public ParticleSystem DeathPS
+    {
+        get => deathPS;
+        protected set => deathPS = value;
+    }
+
+    public float maxLifeTimeDeathParticles => DeathPS.main.startLifetime.constantMax;
 
     protected Transform target;
     public Transform Target
@@ -75,6 +91,8 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Awake()
     {
         Animator = GetComponent<Animator>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        DeathPS = transform.Find("DeathPS").GetComponentInChildren<ParticleSystem>();
         GetPlayerReferences();
         Health = StartingHealth;
         StunnedGameobject = transform.Find("StunnedEnemy").gameObject;
@@ -159,6 +177,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        SpriteRenderer.enabled = false;
+        DeathPS.Play();
         EventManager.EnemyDied.RaiseEvent(this);
+        Destroy(gameObject, maxLifeTimeDeathParticles);
     }
 }

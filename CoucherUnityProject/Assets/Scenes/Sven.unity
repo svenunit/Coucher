@@ -173,7 +173,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10.27
+  orthographic size: 7
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -297,10 +297,15 @@ MonoBehaviour:
   gridOrigin: {x: 0, y: 0}
   gridSize: {x: 15, y: 15}
   gridSpacing: 1
-  BasicEnemyPrefab: {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa,
+  basicEnemyPrefab: {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa,
+    type: 3}
+  enemySpawnIndicator: {fileID: 1530524524411428483, guid: 1b879f88f8af4fa48a6c74728e6dd69e,
+    type: 3}
+  basicEnemyDeathPSPrefab: {fileID: 3794909804827260282, guid: c96c5b607650f1c4bbe781215fed9963,
     type: 3}
   enemyLevelData:
   - {fileID: 11400000, guid: 146570d481c568c4f8b4fb894932f105, type: 2}
+  enemySpawnDelay: 2
 --- !u!1 &867045057
 GameObject:
   m_ObjectHideFlags: 0
