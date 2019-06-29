@@ -300,6 +300,7 @@ MonoBehaviour:
   movementSpeed: 5
   rotationSpeed: 0
   dashDistance: 0
+  dashCooldown: 0
   keyboardMovement: 0
 --- !u!50 &584666690
 Rigidbody2D:
@@ -356,7 +357,8 @@ MonoBehaviour:
   _playerNumber: 1
   movementSpeed: 5
   rotationSpeed: 500
-  dashDistance: 100
+  dashDistance: 5
+  dashCooldown: 1
   keyboardMovement: 0
 --- !u!212 &1512136048
 SpriteRenderer:

@@ -12,13 +12,15 @@ public class PlayerInput : MonoBehaviour
     float _turnV;
     float _turnH;
     Quaternion _aimRotation;
-    
+    float dashTimer;
+
 
     Vector2 _aimDirection;
     float _aimAngle;
     public float movementSpeed;
     public float rotationSpeed;
     public float dashDistance;
+    public float dashCooldown;
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
@@ -83,10 +85,21 @@ public class PlayerInput : MonoBehaviour
 
     private void HandleDash()
     {
-        if(Input.GetAxis("RTriggerP" + _playerNumber)>0){
+
+        
+        if (Input.GetAxis("RTriggerP" + _playerNumber)>0 && dashTimer == 0){
+            dashTimer = dashCooldown;
             transform.position += (Vector3)_aimDirection * dashDistance;
-           
+
         }
-        Debug.Log(Input.GetAxis("RTriggerP" + _playerNumber));
+        else
+        {
+            dashTimer -= Time.deltaTime;
+        }
+
+        if (dashTimer < 0)
+            dashTimer = 0;
+        
+        Debug.Log(dashTimer);
     }
 }
