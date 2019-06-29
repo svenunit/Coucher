@@ -37,6 +37,13 @@ public abstract class Enemy : MonoBehaviour
         protected set => stunned = value;
     }
 
+    protected bool alive;
+    public bool Alive
+    {
+        get => alive;
+        protected set => alive = value;
+    }
+
     protected SpriteRenderer spriteRenderer;
     public SpriteRenderer SpriteRenderer
     {
@@ -49,6 +56,20 @@ public abstract class Enemy : MonoBehaviour
     {
         get => stunnedGameobject;
         protected set => stunnedGameobject = value;
+    }
+
+    protected GameObject explosionGameobject;
+    public GameObject ExplosionGameobject
+    {
+        get => explosionGameobject;
+        protected set => explosionGameobject = value;
+    }
+
+    protected Animator explosionanimator;
+    public Animator Explosionanimator
+    {
+        get => explosionanimator;
+        protected set => explosionanimator = value;
     }
 
     protected Animator animator;
@@ -90,13 +111,17 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
+        Alive = true;
         Animator = GetComponent<Animator>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        DeathPS = transform.Find("DeathPS").GetComponentInChildren<ParticleSystem>();
+        DeathPS = transform.Find("DeathEffects").GetComponentInChildren<ParticleSystem>();
         GetPlayerReferences();
         Health = StartingHealth;
         StunnedGameobject = transform.Find("StunnedEnemy").gameObject;
         StunnedGameobject.SetActive(false);
+        ExplosionGameobject = transform.Find("DeathEffects").gameObject;
+        Explosionanimator = ExplosionGameobject.GetComponentInChildren<Animator>();
+        ExplosionGameobject.SetActive(false);
     }
 
     protected virtual void Start()
@@ -148,7 +173,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void PursueTarget()
     {
-        if (Target == null) return;
+        if (Target == null || Alive == false) return;
         transform.position = Vector3.MoveTowards(transform.position, Target.position, moveSpeed * Time.fixedDeltaTime);
     }
 
@@ -177,8 +202,11 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        Alive = false;
         SpriteRenderer.enabled = false;
-        DeathPS.Play();
+        //DeathPS.Play();
+        ExplosionGameobject.SetActive(true);
+        Explosionanimator.SetTrigger("Die");
         EventManager.EnemyDied.RaiseEvent(this);
         Destroy(gameObject, maxLifeTimeDeathParticles);
     }

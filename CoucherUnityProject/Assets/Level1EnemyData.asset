@@ -29,3 +29,24 @@ MonoBehaviour:
     enemySpawnDuration: 1
     enemiesToSpawn:
     - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 5
+    timeTriggerMax: 6
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 1
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 5
+    timeTriggerMax: 6
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 1
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 5
+    timeTriggerMax: 6
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 1
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
