@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour, IListener
 
     private int currentLevelIndex = 0;
 
+    private int playerReachedExitCounter = 0;
+
     [SerializeField] private Tilemap[] levelTilemaps;
     [SerializeField] private Transform[] levelExits;
     [Header("Camera movement")]
@@ -28,24 +30,19 @@ public class GameManager : MonoBehaviour, IListener
     private void Awake()
     {
         cam = Camera.main;
-        print(levelTilemaps[0].size);
         players = FindObjectsOfType<PlayerInput>();
-        BoundsInt bounds = levelTilemaps[0].cellBounds;
-        TileBase[] allTiles = levelTilemaps[0].GetTilesBlock(bounds);
-        foreach (var tile in allTiles)
-        {
-            print(tile);
-        }
     }
 
     private void OnEnable()
     {
         EventManager.AllWavesDone.AddListener(this, OnAllWavesDone);
+        EventManager.PlayerEnteredExit.AddListener(this, OnPlayerEnteredExit);
     }
 
     private void OnDisable()
     {
         EventManager.AllWavesDone.RemoveListener(this);
+        EventManager.PlayerEnteredExit.RemoveListener(this);
     }
 
     void Start()
@@ -63,13 +60,22 @@ public class GameManager : MonoBehaviour, IListener
         StartCoroutine(EndofLevelRoutine());
     }
 
+    private void OnPlayerEnteredExit()
+    {
+        playerReachedExitCounter++;
+    }
+
     private IEnumerator EndofLevelRoutine()
     {
         // Open door
-        levelExits[currentLevelIndex - 1].GetComponent<SpriteRenderer>().enabled = true;
+        levelExits[currentLevelIndex - 1].GetComponent<LevelExit>().OpenExit();
+        do
+        {
+            yield return null;
+        } while (playerReachedExitCounter < 2);
+
         StartNextLevel();
-        // More things?
-        yield return null;
+        playerReachedExitCounter = 0;
     }
 
     private IEnumerator InitRoutine()
