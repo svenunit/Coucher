@@ -1759,9 +1759,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7534849514078418221, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6,
         type: 3}
-      propertyPath: audioSourceSFXEnemy
+      propertyPath: audioSourceMain
       value: 
-      objectReference: {fileID: 1847942075}
+      objectReference: {fileID: 18081525}
     - target: {fileID: 7534849514078418221, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6,
         type: 3}
       propertyPath: audioSourceSFXPlayer
@@ -1769,14 +1769,14 @@ PrefabInstance:
       objectReference: {fileID: 160955981}
     - target: {fileID: 7534849514078418221, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6,
         type: 3}
+      propertyPath: audioSourceSFXEnemy
+      value: 
+      objectReference: {fileID: 1847942075}
+    - target: {fileID: 7534849514078418221, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6,
+        type: 3}
       propertyPath: audioSourceSFXUI
       value: 
       objectReference: {fileID: 2046336567}
-    - target: {fileID: 7534849514078418221, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6,
-        type: 3}
-      propertyPath: audioSourceMain
-      value: 
-      objectReference: {fileID: 18081525}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61e2cf8bea1eefe4a8b9bf99bba433c6, type: 3}
 --- !u!1 &1326086060
@@ -2269,7 +2269,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1711968078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

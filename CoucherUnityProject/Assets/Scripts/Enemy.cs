@@ -354,6 +354,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.enemyDeath, SoundManager.instance.audioSourceSFXEnemy, 0, 0);
         Alive = false;
         StunnedEnemySpriteRenderer.sprite = null;
         StunnedEnemySpriteRenderer.enabled = false;

@@ -45,11 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOpen: {fileID: 8300000, guid: e48d3c410b763a244a4de11f365f4de7, type: 3}
   doorClose: {fileID: 0}
+  levelClear: {fileID: 8300000, guid: bb5d80e745454264e99c9a3a691297e4, type: 3}
   player1Dashing: {fileID: 8300000, guid: 4e8c33c255588ed4ca90772ad25f2d50, type: 3}
   player2Dashing: {fileID: 8300000, guid: b727b2571b4803149917d45e3b3ddefd, type: 3}
   player1DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
   player2DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
-  enemyHit: {fileID: 8300000, guid: 9b5042994d52ac74fa80e0ba802f9f59, type: 3}
+  enemyHit: {fileID: 8300000, guid: 29d39414e1140914f91a8357a2878bc1, type: 3}
+  enemyStun: {fileID: 8300000, guid: 9b5042994d52ac74fa80e0ba802f9f59, type: 3}
   enemyDeath: {fileID: 8300000, guid: b21fc5c8d3ac60842ae862bf6ed89f1b, type: 3}
   bgMusic: {fileID: 8300000, guid: 1390b10d6e21bf047b89b3a9933b24be, type: 3}
   audioSourceMain: {fileID: 0}
