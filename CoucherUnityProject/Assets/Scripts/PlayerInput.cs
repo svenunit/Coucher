@@ -49,11 +49,17 @@ public class PlayerInput : MonoBehaviour, IListener
 
     private Vector3? dashRayHitpoint;
 
+    private TrailRenderer trailRenderer;
+
     private Rigidbody2D body2d;
     private SpriteRenderer spriteRenderer;
+    private Sprite originalSprite;
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
+
+    [Header("Dash sprites")]
+    public Sprite[] dashSprites;
 
     private Coroutine dashCoroutine;
     public bool InDash => dashCoroutine != null;
@@ -69,12 +75,15 @@ public class PlayerInput : MonoBehaviour, IListener
                 dashing = value;
                 if (dashing == false)
                 {
+                    spriteRenderer.sprite = originalSprite;
+
+                    //  spriteRenderer.flipX = body2d.velocity.x <= 0 || body2d.velocity.y <= 0 ? true : false;
                     newPosition = transform.position;
 
                     switch (getPlayerNumber())
                     {
                         case 1:
-                            
+
                             dashlineP1Collider.enabled = true;
                             dashlineP1.SetPosition(0, oldPosition);
                             dashlineP1.SetPosition(1, newPosition);
@@ -87,7 +96,7 @@ public class PlayerInput : MonoBehaviour, IListener
                             dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
                             break;
                         case 2:
-                           
+
                             dashlineP2Collider.enabled = true;
                             dashlineP2.SetPosition(0, oldPosition);
                             dashlineP2.SetPosition(1, newPosition);
@@ -102,9 +111,16 @@ public class PlayerInput : MonoBehaviour, IListener
                         default:
                             break;
                     }
-                    Debug.LogWarning("DASH ENDED");
-
                     Invoke("DisableLineCollider", .1f);
+                    trailRenderer.emitting = false;
+                }
+                else
+                {
+                    spriteRenderer.sprite = dashSprites[0];
+                    trailRenderer.emitting = true;
+                    _turnV = Input.GetAxis("VerticalRightStickP" + _playerNumber);
+                    _turnH = Input.GetAxis("HorizontalRightStickP" + _playerNumber);
+                    spriteRenderer.flipX = _turnH <= 0 ? false : true;
                 }
             }
         }
@@ -127,8 +143,11 @@ public class PlayerInput : MonoBehaviour, IListener
     {
         body2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        originalSprite = spriteRenderer.sprite;
         hpSlider = GameObject.Find("Healthbar").GetComponent<Slider>();
-        _playerCanMove = true;
+        trailRenderer = GetComponentInChildren<TrailRenderer>();
+        trailRenderer.emitting = false;
+        _playerCanMove = false;
         hp = maxHP;
         //DEBUG
         /*
@@ -143,7 +162,7 @@ public class PlayerInput : MonoBehaviour, IListener
     private void FixedUpdate()
     {
         Dashing = body2d.velocity.magnitude > 4f;
-        if (Dashing == true ||_playerCanMove == false) return;
+        if (Dashing == true || _playerCanMove == false) return;
 
         if (keyboardMovement)
         {
@@ -263,7 +282,7 @@ public class PlayerInput : MonoBehaviour, IListener
                     if (!dashlineP1Collider.gameObject.activeSelf)
                         dashlineP1Collider.gameObject.SetActive(true);
 
-                 
+
 
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
@@ -288,7 +307,7 @@ public class PlayerInput : MonoBehaviour, IListener
                     if (!dashlineP2Collider.gameObject.activeSelf)
                         dashlineP2Collider.gameObject.SetActive(true);
 
-                   
+
 
 
                     dashTimer = dashCooldown;
@@ -320,7 +339,7 @@ public class PlayerInput : MonoBehaviour, IListener
     private IEnumerator TakeDamageRoutine()
     {
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1DamageTaken, SoundManager.instance.audioSourceSFXPlayer, 0, 0);
-        hp -= 25;
+        hp -= 1;
         spriteRenderer.color = Color.red;
         hpSlider.value = hp;
         if (hp <= 0)
