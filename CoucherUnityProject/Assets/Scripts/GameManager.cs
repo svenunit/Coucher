@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour, IListener
     [SerializeField] private Tile doorOpenTileTopWall;
     [SerializeField] private Tile doorClosedTileTopWall;
 
-
     private PlayerInput[] players;
 
     private void Awake()
@@ -56,7 +55,7 @@ public class GameManager : MonoBehaviour, IListener
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            StartNextLevel();
+            StartCoroutine(EndofLevelRoutine());
         }
     }
 
@@ -72,22 +71,28 @@ public class GameManager : MonoBehaviour, IListener
 
     private void OnVictory()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
+        StartCoroutine(VictoryRoutine());
     }
 
     private void OnGameOver()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
+        StartCoroutine(VictoryRoutine());
     }
 
     private IEnumerator EndofLevelRoutine()
     {
+        // Victory if no next level
+        if (currentLevelIndex > levelTilemaps.Length - 1)
+        {
+            EventManager.Victory.RaiseEvent();
+            yield break;
+        }
         // Open door
         levelExits[currentLevelIndex - 1].OpenExit();
         do
         {
             yield return null;
-        } while (playerReachedExitCounter < 2);
+        } while (playerReachedExitCounter < 1);
 
         StartNextLevel();
         playerReachedExitCounter = 0;
@@ -127,4 +132,15 @@ public class GameManager : MonoBehaviour, IListener
         currentLevelIndex++;
     }
 
+    private IEnumerator GameOverRoutine()
+    {
+        yield return null;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
+    }
+
+    private IEnumerator VictoryRoutine()
+    {
+        yield return null;
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
+    }
 }

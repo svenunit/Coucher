@@ -129,7 +129,7 @@ public class PlayerInput : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        Dashing = body2d.velocity.magnitude > 7f;
+        Dashing = body2d.velocity.magnitude > 4f;
         if (Dashing == true) return;
 
         if (keyboardMovement)
@@ -189,7 +189,7 @@ public class PlayerInput : MonoBehaviour
     {
         Enemy enemy = c.GetComponent<Enemy>();
         // Hit by enemy
-        if (enemy != null && IFramesActive == false)
+        if (enemy != null && IFramesActive == false && Dashing == false)
         {
             takeDamageCoroutine = StartCoroutine(TakeDamageRoutine());
         }
@@ -244,6 +244,7 @@ public class PlayerInput : MonoBehaviour
             case 1:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
+                    if (Dashing == false) Dashing = true;
                     if (!dashlineP1.gameObject.activeSelf)
                         dashlineP1.gameObject.SetActive(true);
 
@@ -271,6 +272,7 @@ public class PlayerInput : MonoBehaviour
             case 2:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
+                    if (Dashing == false) Dashing = true;
                     if (!dashlineP2.gameObject.activeSelf)
                         dashlineP2.gameObject.SetActive(true);
 
@@ -315,7 +317,7 @@ public class PlayerInput : MonoBehaviour
     {
         hp -= 10;
         spriteRenderer.color = Color.red;
-        hpSlider.value = hp;// Utility.Remap(hp, 0, maxHP, 0f, 1f);
+        hpSlider.value = hp;
         if (hp <= 0)
         {
             EventManager.GameOver.RaiseEvent();

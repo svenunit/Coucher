@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
+    path: Assets/Scenes/TitleScreen.unity
+    guid: f41b154979128cf4bb0c1040c070fa03
+  - enabled: 1
+    path: Assets/Scenes/Sven.unity
+    guid: f7ad4d5c7e8d1304793b2930e0374b18
+  - enabled: 1
+    path: Assets/Scenes/EndScreenDefeat.unity
+    guid: dab5124cb9477d942b6a50480b5364e4
+  - enabled: 1
+    path: Assets/Scenes/EndScreenVictory.unity
+    guid: 9cd1a46d7a1a861429ac8063b288891b
   m_configObjects: {}
