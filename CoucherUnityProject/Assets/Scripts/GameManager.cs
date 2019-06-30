@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour, IListener
 
     private Coroutine camShakeCoroutine;
 
+    private TMPro.TextMeshProUGUI uIRoomText;
+
     private Image fadeInOutImage;
     [SerializeField] private float fadeInAnimDuration;
     [SerializeField] private AnimationCurve fadeInAnimCurve;
@@ -48,7 +50,7 @@ public class GameManager : MonoBehaviour, IListener
         originalCamPos = cam.transform.position;
         players = FindObjectsOfType<PlayerInput>();
         fadeInOutImage = GameObject.Find("FadeInOutImage").GetComponent<Image>();
-
+        uIRoomText = GameObject.Find("UIRoomText").GetComponent<TMPro.TextMeshProUGUI>();
 
     }
 
@@ -186,6 +188,7 @@ public class GameManager : MonoBehaviour, IListener
         players[1]._playerCanMove = true;
         players[0].GetComponent<SpriteRenderer>().enabled = true;
         players[1].GetComponent<SpriteRenderer>().enabled = true;
+        uIRoomText.text = "Room " + CurrentRoomNumber.ToString();
         Vector3 relativePosChange = Vector2.zero;
         if (currentLevelIndex > 0)
             relativePosChange = levelTilemaps[currentLevelIndex].transform.position - levelTilemaps[currentLevelIndex - 1].transform.position;
