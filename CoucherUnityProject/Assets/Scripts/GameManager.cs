@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour, IListener
         {
             EventManager.Victory.RaiseEvent();
         }
+
+        if (Input.GetKeyDown(KeyCode.F7))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Sven");
+        }
     }
 
     private void OnAllWavesDone()

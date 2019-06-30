@@ -169,7 +169,7 @@ public class PlayerInput : MonoBehaviour, IListener
         {
             print(i + " " + controller[i]);
         }*/
-     
+
     }
     private void FixedUpdate()
     {
