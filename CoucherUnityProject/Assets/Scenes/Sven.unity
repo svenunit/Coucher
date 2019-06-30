@@ -597,6 +597,77 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  camShakeAxis: {x: 1, y: 0.5}
+  camShakeDuration: 0.4
+  camShakeAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0030212402
+      inSlope: 2.6549819
+      outSlope: 2.6549819
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.18647096
+      value: 0.49205577
+      inSlope: -1.7616886
+      outSlope: -1.7616886
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3237658
+      value: -0.35620117
+      inSlope: -0.44160295
+      outSlope: -0.44160295
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.446334
+      value: 0.29281616
+      inSlope: 1.1470387
+      outSlope: 1.1470387
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.61632717
+      value: -0.21734619
+      inSlope: -0.43608296
+      outSlope: -0.43608296
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.7841451
+      value: 0.13992308
+      inSlope: 0.7333428
+      outSlope: 0.7333428
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: -0.0030212402
+      inSlope: -0.6622242
+      outSlope: -0.6622242
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   doorOpenTileTopWall: {fileID: 11400000, guid: 2d4cd265080172d4bb2346a0f28bc751,
     type: 2}
   doorClosedTileTopWall: {fileID: 11400000, guid: 9c29b2211ce8ace408645ee05fb1207e,

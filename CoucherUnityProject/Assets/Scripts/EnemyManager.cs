@@ -87,8 +87,10 @@ public class EnemyManager : MonoBehaviour, IListener
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            foreach (var enemy in Enemies.ToArray())
-                enemy.OnHitByPlayerDash(1);
+            Enemy enemy = Enemies[0];
+            enemy.OnHitByPlayerDash(1);
+            //foreach (var enemy in Enemies.ToArray())
+            //    enemy.OnHitByPlayerDash(1);
         }
     }
 

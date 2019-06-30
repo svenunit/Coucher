@@ -18,11 +18,18 @@ public class GameManager : MonoBehaviour, IListener
     [SerializeField] private float camGotoLevelAnimDuration;
     [SerializeField] private AnimationCurve camGotoLevelAnimCurve;
 
+    [Header("Camera Shake")]
+    [SerializeField] private Vector2 camShakeAxis;
+    [SerializeField] private float camShakeDuration;
+    [SerializeField] private AnimationCurve camShakeAnimCurve;
+
     [Header("Tiles")]
     [SerializeField] private Tile doorOpenTileTopWall;
     [SerializeField] private Tile doorClosedTileTopWall;
 
     private PlayerInput[] players;
+
+    private Coroutine camShakeCoroutine;
 
     private void Awake()
     {
@@ -36,6 +43,7 @@ public class GameManager : MonoBehaviour, IListener
         EventManager.PlayerEnteredExit.AddListener(this, OnPlayerEnteredExit);
         EventManager.GameOver.AddListener(this, OnGameOver);
         EventManager.Victory.AddListener(this, OnVictory);
+        EventManager.EnemyDied.AddListener(this, OnEnemyDied);
     }
 
     private void OnDisable()
@@ -44,6 +52,7 @@ public class GameManager : MonoBehaviour, IListener
         EventManager.PlayerEnteredExit.RemoveListener(this);
         EventManager.GameOver.RemoveListener(this);
         EventManager.Victory.RemoveListener(this);
+        EventManager.EnemyDied.RemoveListener(this);
     }
 
     void Start()
@@ -76,7 +85,14 @@ public class GameManager : MonoBehaviour, IListener
 
     private void OnGameOver()
     {
-        StartCoroutine(VictoryRoutine());
+        StartCoroutine(GameOverRoutine());
+    }
+
+    private void OnEnemyDied(Enemy enemy)
+    {
+        if (camShakeCoroutine != null)
+            StopCoroutine(camShakeCoroutine);
+        camShakeCoroutine = StartCoroutine(CamShakeRoutine());
     }
 
     private IEnumerator EndofLevelRoutine()
@@ -134,7 +150,7 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator GameOverRoutine()
     {
-        yield return null;
+        yield return new WaitForSeconds(3f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
     }
 
@@ -142,5 +158,14 @@ public class GameManager : MonoBehaviour, IListener
     {
         yield return null;
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
+    }
+
+    private IEnumerator CamShakeRoutine()
+    {
+        float x = cam.transform.position.x + camShakeAxis.x;
+        float y = cam.transform.position.y + camShakeAxis.y;
+        Vector3 shakePos = new Vector3(UnityEngine.Random.Range(-x, x), UnityEngine.Random.Range(-y, y), 0f);
+        yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, shakePos, camShakeDuration, camShakeAnimCurve));
+        camShakeCoroutine = null;
     }
 }

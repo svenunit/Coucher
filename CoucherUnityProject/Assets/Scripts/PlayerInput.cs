@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInput : MonoBehaviour
+public class PlayerInput : MonoBehaviour, IListener
 {
 
     // [Header("HP")]
@@ -110,6 +111,16 @@ public class PlayerInput : MonoBehaviour
     private Coroutine takeDamageCoroutine;
     public bool IFramesActive => takeDamageCoroutine != null;
 
+    private void OnEnable()
+    {
+        EventManager.GameOver.AddListener(this, OnGameOver);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.GameOver.RemoveListener(this);
+    }
+
     private void Start()
     {
         body2d = GetComponent<Rigidbody2D>();
@@ -130,7 +141,7 @@ public class PlayerInput : MonoBehaviour
     private void FixedUpdate()
     {
         Dashing = body2d.velocity.magnitude > 4f;
-        if (Dashing == true) return;
+        if (Dashing == true ||_playerCanMove == false) return;
 
         if (keyboardMovement)
         {
@@ -204,6 +215,13 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
+    private void OnGameOver()
+    {
+        _playerCanMove = false;
+        body2d.velocity = Vector2.zero;
+        body2d.isKinematic = true;
+    }
+
     public int getPlayerNumber()
     {
         return _playerNumber;
@@ -228,15 +246,6 @@ public class PlayerInput : MonoBehaviour
             dashDistance = distToHitPoint;
         }
         else dashRayHitpoint = null;
-        //if (dashRayHitpoint != null)
-        //{
-        //    Debug.LogWarning(dashRayHitpoint);
-        //}
-        Debug.Log(indicator.position);
-
-
-
-
 
         switch (_playerNumber)
         {
@@ -251,14 +260,8 @@ public class PlayerInput : MonoBehaviour
                     if (!dashlineP1Collider.gameObject.activeSelf)
                         dashlineP1Collider.gameObject.SetActive(true);
 
-                    //Destroy(currentDashLine);
-
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
-
-                    //dashCoroutine = StartCoroutine(DashRoutine(_aimDirection * dashDistance));
-                    //transform.Translate((Vector3)_aimDirection * dashDistance, Space.World);
-                    //  body2d.velocity = (Vector3)_aimDirection * 10f;
                     body2d.AddForce(_aimDirection * 60f, ForceMode2D.Impulse);
 
                 }
@@ -279,25 +282,17 @@ public class PlayerInput : MonoBehaviour
                     if (!dashlineP2Collider.gameObject.activeSelf)
                         dashlineP2Collider.gameObject.SetActive(true);
 
-                    //Destroy(currentDashLine);
-
-
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
 
-                    //dashCoroutine = StartCoroutine(DashRoutine(_aimDirection * dashDistance));
-                    //transform.Translate((Vector3)_aimDirection * dashDistance, Space.World);
-                    //  body2d.velocity = (Vector3)_aimDirection * 10f;
                     body2d.AddForce(_aimDirection * 60f, ForceMode2D.Impulse);
 
                 }
                 else
                 {
-
                     dashTimer -= Time.deltaTime;
                 }
                 break;
-
         }
     }
 
@@ -315,13 +310,12 @@ public class PlayerInput : MonoBehaviour
 
     private IEnumerator TakeDamageRoutine()
     {
-        hp -= 10;
+        hp -= 25;
         spriteRenderer.color = Color.red;
         hpSlider.value = hp;
         if (hp <= 0)
         {
             EventManager.GameOver.RaiseEvent();
-            _playerCanMove = false;
             yield break;
         }
         for (int i = 0; i < 9; i++)
