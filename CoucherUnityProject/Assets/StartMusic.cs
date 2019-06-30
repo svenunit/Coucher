@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class StartMusic : MonoBehaviour
 {
-    public GameObject[] player;
+    
     private void Awake()
     {
-        player[0].GetComponent<PlayerInput>().setPlayerNumber(0);
-        player[1].GetComponent<PlayerInput>().setPlayerNumber(0);
+    
 
     }
     private void Start()

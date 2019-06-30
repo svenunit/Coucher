@@ -7,6 +7,7 @@ using TMPro;
 
 public class Buttons : MonoBehaviour
 {
+    public GameObject[] player;
     PlayerSelect playerSelect;
     Button playButton;
     public TMP_Text twoPlayerWarning;
@@ -19,7 +20,10 @@ public class Buttons : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0) {
             playerSelect= GameObject.Find("PlayerSelect").GetComponent<PlayerSelect>();
             playButton = GameObject.Find("PlayButton").GetComponent<Button>();
+            player[0].GetComponent<PlayerInput>().setPlayerNumber(0);
+            player[1].GetComponent<PlayerInput>().setPlayerNumber(0);
         }
+        
 
         if (playButton != null && playerSelect != null)
         {
@@ -29,11 +33,14 @@ public class Buttons : MonoBehaviour
 
     private void Update()
     {
-        if (playerSelect.player1Assigned && playerSelect.player2Assigned)
+        if (SceneManager.GetActiveScene().buildIndex == 0)
         {
-            twoPlayerWarning.enabled = false;
-            goMode.enabled = true;
-            playButton.interactable = true;
+            if (playerSelect.player1Assigned && playerSelect.player2Assigned)
+            {
+                twoPlayerWarning.enabled = false;
+                goMode.enabled = true;
+                playButton.interactable = true;
+            }
         }
     }
     public void ExitButton()
@@ -43,13 +50,16 @@ public class Buttons : MonoBehaviour
 
    public void PlayButton()
    {
-        
-       SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        player[0].GetComponent<PlayerInput>().setPlayerNumber(1);
+        player[1].GetComponent<PlayerInput>().setPlayerNumber(2);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicLevel, SoundManager.instance.audioSourceMain, 1, 0);
     }
     
     public void RetryButton()
     {
+        player[0].GetComponent<PlayerInput>().setPlayerNumber(1);
+        player[1].GetComponent<PlayerInput>().setPlayerNumber(2);
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicLevel, SoundManager.instance.audioSourceMain, 1, 0);
         SceneManager.LoadScene(1);
     }
