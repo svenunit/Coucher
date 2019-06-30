@@ -13,10 +13,53 @@ MonoBehaviour:
   m_Name: Level3EnemyData
   m_EditorClassIdentifier: 
   waves:
-  - triggeredByTime: 0
+  - triggeredByTime: 1
     timeTriggerMin: 5
     timeTriggerMax: 6
     spawnEnemiesOverTime: 0
     enemySpawnDuration: 3
     enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 20
+    timeTriggerMax: 20
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 3
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 15
+    timeTriggerMax: 15
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 1.92
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 10
+    timeTriggerMax: 10
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 3
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+  - triggeredByTime: 1
+    timeTriggerMin: 5
+    timeTriggerMax: 6
+    spawnEnemiesOverTime: 0
+    enemySpawnDuration: 3
+    enemiesToSpawn:
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
+    - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}
     - {fileID: 2123086436240970183, guid: c16198b71fb5a1b4686d435b4c605ffa, type: 3}

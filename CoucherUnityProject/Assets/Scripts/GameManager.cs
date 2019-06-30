@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour, IListener
     [SerializeField] private Tilemap[] levelTilemaps;
     [SerializeField] private LevelExit[] levelExits;
 
-    public int CurrentRoomNumber => currentLevelIndex;
+    public int CurrentRoomNumber => currentLevelIndex + 1;
     [Header("Camera movement")]
     [SerializeField] private float camGotoLevelAnimDuration;
     [SerializeField] private AnimationCurve camGotoLevelAnimCurve;
@@ -208,6 +208,9 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator VictoryRoutine()
     {
+        fadeInOutImage.color = Color.clear;
+        fadeInOutImage.enabled = true;
+        yield return StartCoroutine(Utility.LerpColorRoutine(fadeInOutImage, Color.black, 2f, false, fadeOutAnimCurve));
         yield return new WaitForSeconds(1f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
     }

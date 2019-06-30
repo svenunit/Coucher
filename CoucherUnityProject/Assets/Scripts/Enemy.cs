@@ -6,12 +6,24 @@ using System;
 
 public abstract class Enemy : MonoBehaviour, IListener
 {
-    [Range(0.1f, 5f)] [SerializeField] protected float moveSpeed = 1f;
+
+    [Range(0.1f, 5f)] [SerializeField] protected float baseMoveSpeed = 1f;
+    public float BaseMoveSpeed
+    {
+        get => baseMoveSpeed;
+        protected set => Mathf.Clamp(value, 0, int.MaxValue);
+    }
+    [SerializeField] protected float moveSpeed;
     public float MoveSpeed
     {
         get => moveSpeed;
-        protected set => moveSpeed = value;
+        protected set => Mathf.Clamp(value, 0, maxMoveSpeed);
     }
+
+    public float moveSpeedIncreaseOnRecovery => MoveSpeed * .2f;
+    public float maxMoveSpeed => BaseMoveSpeed * 3f;
+    public float recoveryDecreaseOnRecovery => RecoveryTime * .2f;
+    public float minRecovery => .5f;
 
     [Range(1, 10)] [SerializeField] protected int startingHealth;
     public int StartingHealth
@@ -24,7 +36,7 @@ public abstract class Enemy : MonoBehaviour, IListener
     public float RecoveryTime
     {
         get => recoveryTime;
-        protected set => recoveryTime = value;
+        protected set => recoveryTime = Mathf.Clamp(value, minRecovery, int.MaxValue);
     }
     private float recoveryTimer = 0f;
 
@@ -195,6 +207,7 @@ public abstract class Enemy : MonoBehaviour, IListener
         Pathfinding = FindObjectOfType<Pathfinding>();
         PathfindingGrid = FindObjectOfType<PathfindingGrid>();
         PathToTarget = new List<Vector2>();
+        MoveSpeed = BaseMoveSpeed;
     }
 
     protected void OnEnable()
@@ -352,7 +365,8 @@ public abstract class Enemy : MonoBehaviour, IListener
         Target = FindTarget();
         Animator.SetFloat("speedMod", 1f);
         recoveryTimer = 0f;
-
+        MoveSpeed += moveSpeedIncreaseOnRecovery;
+        RecoveryTime -= recoveryDecreaseOnRecovery;
         PlayerHitByMostRecently = null;
     }
 
