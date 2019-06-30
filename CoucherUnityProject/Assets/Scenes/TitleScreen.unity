@@ -267,8 +267,10 @@ MonoBehaviour:
   - {fileID: 4549723019955458906, guid: 94d8c5613ac46ce40be0b2187499fe5a, type: 3}
   - {fileID: 8702703651777801463, guid: 6450a8d5d4f379448a1cf6d66d28d053, type: 3}
   playerSprites:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1118803593}
+  - {fileID: 380531468}
+  player1Assigned: 0
+  player2Assigned: 0
 --- !u!4 &348190499
 Transform:
   m_ObjectHideFlags: 0
@@ -536,7 +538,7 @@ GameObject:
   - component: {fileID: 969705910}
   - component: {fileID: 969705909}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -830,6 +832,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72222c3a74e9e341b60b65b65ba0210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player:
+  - {fileID: 4549723019955458906, guid: 94d8c5613ac46ce40be0b2187499fe5a, type: 3}
+  - {fileID: 8702703651777801463, guid: 6450a8d5d4f379448a1cf6d66d28d053, type: 3}
 --- !u!1 &1118803591
 GameObject:
   m_ObjectHideFlags: 0
