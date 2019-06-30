@@ -37,7 +37,11 @@ public class SoundManager : MonoBehaviour
     //AudioSources
     [Header("Audio Sources")]
     public AudioSource audioSourceMain;
-    public AudioSource audioSourceSFX;
+    public AudioSource audioSourceSFXPlayer;
+    public AudioSource audioSourceSFXEnemy;
+    public AudioSource audioSourceSFXUI;
+
+
 
 
 

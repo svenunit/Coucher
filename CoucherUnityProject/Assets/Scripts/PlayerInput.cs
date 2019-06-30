@@ -74,7 +74,7 @@ public class PlayerInput : MonoBehaviour, IListener
                     switch (getPlayerNumber())
                     {
                         case 1:
-                            SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1Dashing, SoundManager.instance.audioSourceSFX, 0, 0);
+                            
                             dashlineP1Collider.enabled = true;
                             dashlineP1.SetPosition(0, oldPosition);
                             dashlineP1.SetPosition(1, newPosition);
@@ -87,7 +87,7 @@ public class PlayerInput : MonoBehaviour, IListener
                             dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
                             break;
                         case 2:
-                            SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player2Dashing, SoundManager.instance.audioSourceSFX, 0, 0);
+                           
                             dashlineP2Collider.enabled = true;
                             dashlineP2.SetPosition(0, oldPosition);
                             dashlineP2.SetPosition(1, newPosition);
@@ -255,6 +255,7 @@ public class PlayerInput : MonoBehaviour, IListener
             case 1:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
+                    SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1Dashing, SoundManager.instance.audioSourceSFXPlayer, 0, 0);
                     if (Dashing == false) Dashing = true;
                     if (!dashlineP1.gameObject.activeSelf)
                         dashlineP1.gameObject.SetActive(true);
@@ -279,6 +280,7 @@ public class PlayerInput : MonoBehaviour, IListener
             case 2:
                 if (Input.GetAxis("RTriggerP" + _playerNumber) > 0 && dashTimer <= 0)
                 {
+                    SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player2Dashing, SoundManager.instance.audioSourceSFXPlayer, 0, 0);
                     if (Dashing == false) Dashing = true;
                     if (!dashlineP2.gameObject.activeSelf)
                         dashlineP2.gameObject.SetActive(true);
@@ -317,6 +319,7 @@ public class PlayerInput : MonoBehaviour, IListener
 
     private IEnumerator TakeDamageRoutine()
     {
+        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1DamageTaken, SoundManager.instance.audioSourceSFXPlayer, 0, 0);
         hp -= 25;
         spriteRenderer.color = Color.red;
         hpSlider.value = hp;
