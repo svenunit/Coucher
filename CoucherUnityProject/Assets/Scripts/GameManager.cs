@@ -113,6 +113,9 @@ public class GameManager : MonoBehaviour, IListener
         }
         // Open door
         levelExits[currentLevelIndex - 1].OpenExit();
+      SoundManager.instance.PlayAudioOnSource(SoundManager.instance.doorOpen, SoundManager.instance.audioSourceSFXUI, 0, 0);
+        
+
         do
         {
             yield return null;

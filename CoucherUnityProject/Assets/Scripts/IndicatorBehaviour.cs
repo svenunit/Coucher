@@ -11,10 +11,9 @@ public class IndicatorBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        
+
         //GetComponent<SpriteRenderer>().material.color = dashReadyColor;
 
-        
     
     }
 }

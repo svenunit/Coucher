@@ -258,6 +258,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void TakeDamage(int amount)
     {
+       
         Health -= Mathf.Abs(amount);
     }
 
@@ -273,9 +274,15 @@ public abstract class Enemy : MonoBehaviour
     public virtual void OnHitByPlayerDash(int damageAmount)
     {
         if (Stunned == false)
+        {
+            SoundManager.instance.PlayAudioOnSource(SoundManager.instance.enemyHit, SoundManager.instance.audioSourceSFXEnemy, 0, 0);
             Stun();
+        }
         else
+        {
+
             TakeDamage(damageAmount);
+        }
     }
 
     public virtual void Recover()
