@@ -169,8 +169,7 @@ public class PlayerInput : MonoBehaviour, IListener
         {
             print(i + " " + controller[i]);
         }*/
-        if (_playerNumber == 0)
-            _playerNumber++;
+     
     }
     private void FixedUpdate()
     {

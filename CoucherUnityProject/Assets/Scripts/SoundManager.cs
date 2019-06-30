@@ -14,6 +14,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip doorOpen;
     public AudioClip doorClose;
     public AudioClip levelClear;
+    public AudioClip player1Connect;
+    public AudioClip player2Connect;
+
 
     [Header("Player SFX")]
     public AudioClip player1Dashing;
