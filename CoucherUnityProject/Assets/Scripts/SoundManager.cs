@@ -38,7 +38,7 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource audioSourceMain;
     public AudioSource audioSourceSFX;
-    public AudioSource audioSourceUI;
+
 
 
 
@@ -59,10 +59,11 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(this);
         }
+        PlayAudioOnSource(bgMusic, audioSourceMain, 1, 10);
     }
 
     private void Update()
-    {
+    {   //Debug
         if (Input.GetKeyDown(KeyCode.F12))
             PlayAudioOnSource(doorOpen,audioSourceMain,0,0);
     }

@@ -920,6 +920,13 @@ MonoBehaviour:
     type: 2}
   doorClosedTileTopWall: {fileID: 11400000, guid: 9c29b2211ce8ace408645ee05fb1207e,
     type: 2}
+  fadeInAnimDuration: 0
+  fadeInAnimCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1839735485 &269816587 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 6407678423690667683, guid: 223a6028d51efc146a1d105cd874dd0c,
@@ -1085,14 +1092,13 @@ MonoBehaviour:
   doorClose: {fileID: 0}
   player1Dashing: {fileID: 8300000, guid: 4e8c33c255588ed4ca90772ad25f2d50, type: 3}
   player2Dashing: {fileID: 8300000, guid: b727b2571b4803149917d45e3b3ddefd, type: 3}
-  player1DamageTaken: {fileID: 8300000, guid: b727b2571b4803149917d45e3b3ddefd, type: 3}
-  player2DamageTaken: {fileID: 0}
+  player1DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
+  player2DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
   enemyHit: {fileID: 0}
   enemyDeath: {fileID: 8300000, guid: b21fc5c8d3ac60842ae862bf6ed89f1b, type: 3}
-  bgMusic: {fileID: 0}
+  bgMusic: {fileID: 8300000, guid: 1390b10d6e21bf047b89b3a9933b24be, type: 3}
   audioSourceMain: {fileID: 18081525}
   audioSourceSFX: {fileID: 2853545}
-  audioSourceUI: {fileID: 0}
 --- !u!4 &347407947
 Transform:
   m_ObjectHideFlags: 0
@@ -2340,6 +2346,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 40.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1606347907431929405, guid: a1d6ab46695199c4f982ca63e09ce4fc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209512858699841105, guid: a1d6ab46695199c4f982ca63e09ce4fc,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1d6ab46695199c4f982ca63e09ce4fc, type: 3}
