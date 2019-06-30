@@ -1,9 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInput : MonoBehaviour
 {
+
+    // [Header("HP")]
+    private int maxHP = 100;
+
+    public static int hp;
+
+    private Slider hpSlider;
+
     [SerializeField]
     int _playerNumber;
     [SerializeField]
@@ -40,6 +49,7 @@ public class PlayerInput : MonoBehaviour
     private Vector3? dashRayHitpoint;
 
     private Rigidbody2D body2d;
+    private SpriteRenderer spriteRenderer;
 
     [Header("DEBUG")]
     public bool keyboardMovement = false;
@@ -97,12 +107,16 @@ public class PlayerInput : MonoBehaviour
         }
     }
 
-
+    private Coroutine takeDamageCoroutine;
+    public bool IFramesActive => takeDamageCoroutine != null;
 
     private void Start()
     {
         body2d = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        hpSlider = GameObject.Find("Healthbar").GetComponent<Slider>();
         _playerCanMove = true;
+        hp = maxHP;
         //DEBUG
         /*
         string[] controller = Input.GetJoystickNames();
@@ -171,6 +185,15 @@ public class PlayerInput : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D c)
+    {
+        Enemy enemy = c.GetComponent<Enemy>();
+        // Hit by enemy
+        if (enemy != null && IFramesActive == false)
+        {
+            takeDamageCoroutine = StartCoroutine(TakeDamageRoutine());
+        }
+    }
 
     private void OnDrawGizmos()
     {
@@ -286,6 +309,25 @@ public class PlayerInput : MonoBehaviour
             yield return null;
         }
         dashCoroutine = null;
+    }
+
+    private IEnumerator TakeDamageRoutine()
+    {
+        hp -= 10;
+        spriteRenderer.color = Color.red;
+        hpSlider.value = hp;// Utility.Remap(hp, 0, maxHP, 0f, 1f);
+        if (hp <= 0)
+        {
+            EventManager.GameOver.RaiseEvent();
+            _playerCanMove = false;
+            yield break;
+        }
+        for (int i = 0; i < 9; i++)
+        {
+            spriteRenderer.color = i % 2 == 0 ? Color.white : Color.red;
+            yield return new WaitForSeconds(.05f);
+        }
+        takeDamageCoroutine = null;
     }
 
     private void DisableLineCollider()

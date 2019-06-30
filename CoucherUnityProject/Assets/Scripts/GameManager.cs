@@ -35,12 +35,16 @@ public class GameManager : MonoBehaviour, IListener
     {
         EventManager.AllWavesDone.AddListener(this, OnAllWavesDone);
         EventManager.PlayerEnteredExit.AddListener(this, OnPlayerEnteredExit);
+        EventManager.GameOver.AddListener(this, OnGameOver);
+        EventManager.Victory.AddListener(this, OnVictory);
     }
 
     private void OnDisable()
     {
         EventManager.AllWavesDone.RemoveListener(this);
         EventManager.PlayerEnteredExit.RemoveListener(this);
+        EventManager.GameOver.RemoveListener(this);
+        EventManager.Victory.RemoveListener(this);
     }
 
     void Start()
@@ -64,6 +68,16 @@ public class GameManager : MonoBehaviour, IListener
     private void OnPlayerEnteredExit()
     {
         playerReachedExitCounter++;
+    }
+
+    private void OnVictory()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
+    }
+
+    private void OnGameOver()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
     }
 
     private IEnumerator EndofLevelRoutine()
