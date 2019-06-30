@@ -354,11 +354,13 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        GetComponent<BoxCollider2D>().enabled = false;
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.enemyDeath, SoundManager.instance.audioSourceSFXEnemy, 0, 0);
         Alive = false;
         StunnedEnemySpriteRenderer.sprite = null;
         StunnedEnemySpriteRenderer.enabled = false;
         SpriteRenderer.enabled = false;
+
         StunnedGameobject.SetActive(false);
         //DeathPS.Play();
         ExplosionGameobject.SetActive(true);

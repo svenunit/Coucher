@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour, IListener
     private Image fadeInOutImage;
     [SerializeField] private float fadeInAnimDuration;
     [SerializeField] private AnimationCurve fadeInAnimCurve;
+    [SerializeField] private AnimationCurve fadeOutAnimCurve;
 
     private void Awake()
     {
@@ -42,7 +43,7 @@ public class GameManager : MonoBehaviour, IListener
         originalCamPos = cam.transform.position;
         players = FindObjectsOfType<PlayerInput>();
         fadeInOutImage = GameObject.Find("FadeInOutImage").GetComponent<Image>();
-        
+
 
     }
 
@@ -110,24 +111,24 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator EndofLevelRoutine()
     {
-        // Victory if no next level
-        if (currentLevelIndex > levelTilemaps.Length - 1)
-        {
-            EventManager.Victory.RaiseEvent();
-            yield break;
-        }
         // Open door
         levelExits[currentLevelIndex - 1].OpenExit();
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.doorOpen, SoundManager.instance.audioSourceSFXUI, 0, 0);
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.levelClear, SoundManager.instance.audioSourceSFXUI, 0, 0);
 
-
-
         do
         {
             yield return null;
-        } while (playerReachedExitCounter < 1);
-
+        } while (playerReachedExitCounter < 2);
+        // Victory if no next level
+        if (currentLevelIndex > levelTilemaps.Length - 1)
+        {
+            fadeInOutImage.color = Color.clear;
+            fadeInOutImage.enabled = true;
+            yield return StartCoroutine(Utility.LerpColorRoutine(fadeInOutImage, Color.black, 3f, false, fadeOutAnimCurve));
+            EventManager.Victory.RaiseEvent();
+            yield break;
+        }
         StartNextLevel();
         playerReachedExitCounter = 0;
     }
@@ -171,7 +172,9 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator GameOverRoutine()
     {
-        yield return new WaitForSeconds(3f);
+        fadeInOutImage.color = Color.clear;
+        fadeInOutImage.enabled = true;
+        yield return StartCoroutine(Utility.LerpColorRoutine(fadeInOutImage, Color.black, 2f, false, fadeOutAnimCurve));
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicEnd, SoundManager.instance.audioSourceMain, 1, 5);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
     }
@@ -184,7 +187,7 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator CamShakeRoutine()
     {
-        float x =  camShakeAxis.x;
+        float x = camShakeAxis.x;
         float y = camShakeAxis.y;
         Vector3 shakePos = originalCamPos + new Vector3(Random.Range(-x, x), Random.Range(-y, y), 0f);
         yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, shakePos, camShakeDuration, camShakeAnimCurve));
