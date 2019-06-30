@@ -5,12 +5,11 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    
 
 
     //Should be in a Scriptable Object...
     //AudioClips SFX
- 
+
     [Header("Environment SFX")]
     public AudioClip doorOpen;
     public AudioClip doorClose;
@@ -33,7 +32,9 @@ public class SoundManager : MonoBehaviour
 
     //AudioClips Music
     [Header("Audio Clips Music")]
-    public AudioClip bgMusic;
+    public AudioClip bgMusicLevel;
+    public AudioClip bgMusicEnd;
+
 
 
     //AudioSources
@@ -46,17 +47,10 @@ public class SoundManager : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
         if (instance == null)
         {
             instance = this;
@@ -65,13 +59,10 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(this);
         }
-        PlayAudioOnSource(bgMusic, audioSourceMain, 1, 10);
     }
 
     private void Update()
-    {   //Debug
-        if (Input.GetKeyDown(KeyCode.F12))
-            PlayAudioOnSource(doorOpen,audioSourceMain,0,0);
+    {   
     }
 
 
