@@ -20,8 +20,8 @@ public abstract class Enemy : MonoBehaviour, IListener
         protected set => Mathf.Clamp(value, 0, maxMoveSpeed);
     }
 
-    public float moveSpeedIncreaseOnRecovery => MoveSpeed * .2f;
-    public float maxMoveSpeed => BaseMoveSpeed * 3f;
+    public float moveSpeedIncreaseOnRecovery => BaseMoveSpeed * .5f;
+    public float maxMoveSpeed => BaseMoveSpeed * 10f;
     public float recoveryDecreaseOnRecovery => RecoveryTime * .2f;
     public float minRecovery => .5f;
 
