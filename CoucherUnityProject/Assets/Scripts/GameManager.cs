@@ -39,8 +39,11 @@ public class GameManager : MonoBehaviour, IListener
     [SerializeField] private AnimationCurve fadeInAnimCurve;
     [SerializeField] private AnimationCurve fadeOutAnimCurve;
 
+    public static GameManager Instance;
+
     private void Awake()
     {
+        Instance = this;
         cam = Camera.main;
         originalCamPos = cam.transform.position;
         players = FindObjectsOfType<PlayerInput>();
