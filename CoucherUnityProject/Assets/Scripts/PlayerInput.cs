@@ -42,6 +42,17 @@ public class PlayerInput : MonoBehaviour, IListener
     public EdgeCollider2D dashlineP2Collider;
     public bool _playerCanMove;
 
+    private bool playerCanDash;
+    public bool PlayerCanDash
+    {
+        get { return playerCanDash; }
+        set
+        {
+            if (playerCanDash == value) return;
+            playerCanDash = value;
+            spriteRendererDashIndicator.color = playerCanDash ? Color.white : Color.grey;
+        }
+    }
 
     public LineRenderer dashlineP2;
 
@@ -53,6 +64,7 @@ public class PlayerInput : MonoBehaviour, IListener
 
     private Rigidbody2D body2d;
     private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRendererDashIndicator;
     private Sprite originalSprite;
 
     [Header("DEBUG")]
@@ -143,6 +155,7 @@ public class PlayerInput : MonoBehaviour, IListener
     {
         body2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRendererDashIndicator = transform.Find("Indicator").GetComponent<SpriteRenderer>();
         originalSprite = spriteRenderer.sprite;
         hpSlider = GameObject.Find("Healthbar").GetComponent<Slider>();
         trailRenderer = GetComponentInChildren<TrailRenderer>();
@@ -163,6 +176,7 @@ public class PlayerInput : MonoBehaviour, IListener
         Dashing = body2d.velocity.magnitude > 4f;
         if (Dashing == true || _playerCanMove == false) return;
 
+        PlayerCanDash = dashTimer <= 0;
         if (keyboardMovement)
         {
             _verticalAxes = Input.GetAxis("VerticalP" + _playerNumber + "K") * movementSpeed * Time.deltaTime;
