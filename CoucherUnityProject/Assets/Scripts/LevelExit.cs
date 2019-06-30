@@ -16,7 +16,7 @@ public class LevelExit : MonoBehaviour
         players = new HashSet<PlayerInput>();
         blockerCollider = transform.Find("BlockerCollider").GetComponent<BoxCollider2D>();
         spriteRenderer = transform.Find("LevelExitSprite").GetComponent<SpriteRenderer>();
-        lightAndParticlesGameObject = transform.Find("Light_Door").gameObject;
+        lightAndParticlesGameObject = transform.Find("LevelExitSprite").Find("Light_Door").gameObject;
     }
 
     public void OpenExit()
