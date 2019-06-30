@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7534849514078418222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7534849514078418220}
+  - component: {fileID: 7534849514078418221}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7534849514078418220
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7534849514078418222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.9657884, y: 13.476517, z: -61.96875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7534849514078418221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7534849514078418222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85776f373c975f040b2527efe743f23c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorOpen: {fileID: 8300000, guid: e48d3c410b763a244a4de11f365f4de7, type: 3}
+  doorClose: {fileID: 0}
+  player1Dashing: {fileID: 8300000, guid: 4e8c33c255588ed4ca90772ad25f2d50, type: 3}
+  player2Dashing: {fileID: 8300000, guid: b727b2571b4803149917d45e3b3ddefd, type: 3}
+  player1DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
+  player2DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
+  enemyHit: {fileID: 8300000, guid: 9b5042994d52ac74fa80e0ba802f9f59, type: 3}
+  enemyDeath: {fileID: 8300000, guid: b21fc5c8d3ac60842ae862bf6ed89f1b, type: 3}
+  bgMusic: {fileID: 8300000, guid: 1390b10d6e21bf047b89b3a9933b24be, type: 3}
+  audioSourceMain: {fileID: 0}
+  audioSourceSFXPlayer: {fileID: 0}
+  audioSourceSFXEnemy: {fileID: 0}
+  audioSourceSFXUI: {fileID: 0}
