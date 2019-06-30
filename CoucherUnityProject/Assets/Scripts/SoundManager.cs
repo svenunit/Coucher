@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     [Header("Environment SFX")]
     public AudioClip doorOpen;
     public AudioClip doorClose;
+    public AudioClip levelClear;
 
     [Header("Player SFX")]
     public AudioClip player1Dashing;
@@ -26,6 +27,7 @@ public class SoundManager : MonoBehaviour
 
     [Header("Enemy SFX")]
     public AudioClip enemyHit;
+    public AudioClip enemyStun;
     public AudioClip enemyDeath;
 
 
