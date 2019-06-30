@@ -166,6 +166,7 @@ public class GameManager : MonoBehaviour, IListener
     private IEnumerator GameOverRoutine()
     {
         yield return new WaitForSeconds(3f);
+        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicEnd, SoundManager.instance.audioSourceMain, 1, 5);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
     }
 
