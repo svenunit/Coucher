@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour, IListener
         originalCamPos = cam.transform.position;
         players = FindObjectsOfType<PlayerInput>();
         fadeInOutImage = GameObject.Find("FadeInOutImage").GetComponent<Image>();
-        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicLevel, SoundManager.instance.audioSourceMain, 1, 10);
+        
 
     }
 
