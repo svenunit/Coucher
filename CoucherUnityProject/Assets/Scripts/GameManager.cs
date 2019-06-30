@@ -105,6 +105,8 @@ public class GameManager : MonoBehaviour, IListener
         }
         // Open door
         levelExits[currentLevelIndex - 1].OpenExit();
+        
+
         do
         {
             yield return null;

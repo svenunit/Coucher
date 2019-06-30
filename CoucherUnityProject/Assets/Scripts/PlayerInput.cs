@@ -74,6 +74,7 @@ public class PlayerInput : MonoBehaviour, IListener
                     switch (getPlayerNumber())
                     {
                         case 1:
+                            SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1Dashing, SoundManager.instance.audioSourceSFX, 0, 0);
                             dashlineP1Collider.enabled = true;
                             dashlineP1.SetPosition(0, oldPosition);
                             dashlineP1.SetPosition(1, newPosition);
@@ -86,6 +87,7 @@ public class PlayerInput : MonoBehaviour, IListener
                             dashlineP1Collider.GetComponent<EdgeCollider2D>().points = colliderPointsP1;
                             break;
                         case 2:
+                            SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player2Dashing, SoundManager.instance.audioSourceSFX, 0, 0);
                             dashlineP2Collider.enabled = true;
                             dashlineP2.SetPosition(0, oldPosition);
                             dashlineP2.SetPosition(1, newPosition);
@@ -260,6 +262,8 @@ public class PlayerInput : MonoBehaviour, IListener
                     if (!dashlineP1Collider.gameObject.activeSelf)
                         dashlineP1Collider.gameObject.SetActive(true);
 
+                 
+
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
                     body2d.AddForce(_aimDirection * 60f, ForceMode2D.Impulse);
@@ -281,6 +285,9 @@ public class PlayerInput : MonoBehaviour, IListener
 
                     if (!dashlineP2Collider.gameObject.activeSelf)
                         dashlineP2Collider.gameObject.SetActive(true);
+
+                   
+
 
                     dashTimer = dashCooldown;
                     oldPosition = transform.position;
