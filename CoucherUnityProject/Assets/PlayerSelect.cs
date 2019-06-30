@@ -42,6 +42,8 @@ public class PlayerSelect : MonoBehaviour
             playerSprites[1].color = new Color32(255, 255, 255, 255);
         }
         ////////
+
+        /*
         if (Input.GetAxis("RTriggerP1") >= .9f && !player1Assigned)
         {
             if (player[0].GetComponent<PlayerInput>().getPlayerNumber() == 0)
@@ -84,6 +86,37 @@ public class PlayerSelect : MonoBehaviour
 
             }
         }
+        */
 
+        ////////
+
+
+        if (Input.GetAxis("RTriggerP1") >= .9f && !player1Assigned)
+        {
+            if (player[0].GetComponent<PlayerInput>().getPlayerNumber() == 0)
+            {
+                player[0].GetComponent<PlayerInput>().setPlayerNumber(1);
+                SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1Connect, SoundManager.instance.audioSourceSFXUI, 0, 0);
+
+                player1Assigned = true;
+
+            }
+          
+            
+
+        }
+        //////////
+        if (Input.GetAxis("RTriggerP2") >= .9f && !player2Assigned)
+        {
+            if (player[1].GetComponent<PlayerInput>().getPlayerNumber() == 0)
+            {
+                player[1].GetComponent<PlayerInput>().setPlayerNumber(2);
+                SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player2Connect, SoundManager.instance.audioSourceSFXUI, 0, 0);
+
+                player2Assigned = true;
+
+            }
+         
+        }
     }
 }

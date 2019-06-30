@@ -45,7 +45,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -177,6 +177,8 @@ MonoBehaviour:
   doorOpen: {fileID: 8300000, guid: e48d3c410b763a244a4de11f365f4de7, type: 3}
   doorClose: {fileID: 0}
   levelClear: {fileID: 8300000, guid: bb5d80e745454264e99c9a3a691297e4, type: 3}
+  player1Connect: {fileID: 8300000, guid: b165726df9037254d9211c518b0b133a, type: 3}
+  player2Connect: {fileID: 8300000, guid: f3f89893f3dcba34d9023e8f9b037197, type: 3}
   player1Dashing: {fileID: 8300000, guid: 4e8c33c255588ed4ca90772ad25f2d50, type: 3}
   player2Dashing: {fileID: 8300000, guid: b727b2571b4803149917d45e3b3ddefd, type: 3}
   player1DamageTaken: {fileID: 8300000, guid: 14461981a609aa0408fdcac1af1ff9ea, type: 3}
