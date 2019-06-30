@@ -3,6 +3,7 @@
 public class EventManager : MonoBehaviour
 {
     public static Event1<Enemy> EnemyDied { get; private set; }
+    public static Event1<PlayerInput> PlayerWasHit { get; private set; }
     public static Event0 AllWavesDone { get; private set; }
     public static Event0 PlayerEnteredExit { get; private set; }
     public static Event0 GameOver { get; private set; }
@@ -22,6 +23,7 @@ public class EventManager : MonoBehaviour
         PlayerEnteredExit = new Event0();
         GameOver = new Event0();
         Victory = new Event0();
+        PlayerWasHit = new Event1<PlayerInput>();
     }
 }
 

@@ -352,6 +352,7 @@ public class PlayerInput : MonoBehaviour, IListener
 
     private IEnumerator TakeDamageRoutine()
     {
+        EventManager.PlayerWasHit.RaiseEvent(this);
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.player1DamageTaken, SoundManager.instance.audioSourceSFXPlayer, 0, 0);
         hp -= 10;
         spriteRenderer.color = Color.red;

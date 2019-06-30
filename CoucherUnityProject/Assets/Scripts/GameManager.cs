@@ -75,7 +75,14 @@ public class GameManager : MonoBehaviour, IListener
         if (Input.GetKeyDown(KeyCode.F1))
         {
             StartNextLevel();
-            // StartCoroutine(EndofLevelRoutine());
+        }
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            EventManager.GameOver.RaiseEvent();
+        }
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            EventManager.Victory.RaiseEvent();
         }
     }
 
@@ -119,7 +126,7 @@ public class GameManager : MonoBehaviour, IListener
         do
         {
             yield return null;
-        } while (playerReachedExitCounter < 2);
+        } while (playerReachedExitCounter < 1);
         // Victory if no next level
         if (currentLevelIndex > levelTilemaps.Length - 1)
         {
@@ -148,6 +155,11 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator StartNextLevelRoutine()
     {
+        if (currentLevelIndex > levelTilemaps.Length - 1)
+        {
+            Debug.LogError("No more levels left to start.");
+            yield break;
+        }
         Vector3 trgPosCam = levelTilemaps[currentLevelIndex].gameObject.transform.position;
         trgPosCam.z = -10f;
         Vector3 trgPosPlayers = levelTilemaps[currentLevelIndex].gameObject.transform.position;
@@ -175,13 +187,14 @@ public class GameManager : MonoBehaviour, IListener
         fadeInOutImage.color = Color.clear;
         fadeInOutImage.enabled = true;
         yield return StartCoroutine(Utility.LerpColorRoutine(fadeInOutImage, Color.black, 2f, false, fadeOutAnimCurve));
+        yield return new WaitForSeconds(1f);
         SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicEnd, SoundManager.instance.audioSourceMain, 1, 5);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenDefeat");
     }
 
     private IEnumerator VictoryRoutine()
     {
-        yield return null;
+        yield return new WaitForSeconds(1f);
         UnityEngine.SceneManagement.SceneManager.LoadScene("EndScreenVictory");
     }
 

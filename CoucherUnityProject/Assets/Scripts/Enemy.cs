@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
-public abstract class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour, IListener
 {
     [Range(0.1f, 5f)] [SerializeField] protected float moveSpeed = 1f;
     public float MoveSpeed
@@ -196,6 +197,17 @@ public abstract class Enemy : MonoBehaviour
         PathToTarget = new List<Vector2>();
     }
 
+    protected void OnEnable()
+    {
+        EventManager.PlayerWasHit.AddListener(this, OnPlayerWasHit);
+
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.PlayerWasHit.RemoveListener(this);
+    }
+
     protected virtual void Start()
     {
         Target = FindTarget();
@@ -247,6 +259,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    private void OnPlayerWasHit(PlayerInput playerInput)
+    {
+        Target = FindTarget(randomTarget: true);
+    }
+
     private void GetPlayerReferences()
     {
         // Find players here, Player1 is the one with the lower PlayerNumber.
@@ -267,24 +284,24 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected virtual Transform FindTarget()
+    protected virtual Transform FindTarget(bool randomTarget = false)
     {
         if (Player1 == null || Player2 == null) return null;
-        //// try use pathfinding to get path
-        //Node start = PathfindingGrid.GetNodeByPosition(transform.position);
-        //Node end = PathfindingGrid.GetNodeByPosition(player2.position);
-        //PathToTarget = Pathfinding.FindPath(start, end);
-        //if (PathToTarget != null)
-        //{
-        //    Debug.LogWarning("Found Path!");
-        //}
-        //else Debug.LogWarning("Found NO PATH!");
+        if (randomTarget == true) return GetRandomTarget();
+        else
+        {
+            // default: get closest player
+            float dist1 = Vector2.Distance(transform.position, player1.position);
+            if (dist1 < Vector2.Distance(transform.position, player2.position))
+                return Player1;
+            else return Player2;
+        }
+    }
 
-        // default: get closest player
-        float dist1 = Vector2.Distance(transform.position, player1.position);
-        if (dist1 < Vector2.Distance(transform.position, player2.position))
-            return Player1;
-        else return Player2;
+    protected Transform GetRandomTarget()
+    {
+        bool targetPlayer1 = UnityEngine.Random.value > .5 ? true : false;
+        return targetPlayer1 ? Player1 : Player2;
     }
 
     protected virtual void PursueTarget()
@@ -321,7 +338,6 @@ public abstract class Enemy : MonoBehaviour
         }
         else
         {
-
             TakeDamage(damageAmount);
         }
     }

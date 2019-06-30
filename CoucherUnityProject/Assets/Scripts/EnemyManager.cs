@@ -71,44 +71,31 @@ public class EnemyManager : MonoBehaviour, IListener
     private void Update()
     {
         HandleCurrentWaveTimer();
-        if (Input.GetMouseButtonDown(0))
-        {
-            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            pos.z = 0f;
-            pos = GetClosestGridPos(pos);
-            if ((PositionInsideGrid(pos) == true) && PositionIsOccupied(pos) == false)
-            {
-                SpawnEnemy(basicEnemyPrefab, pos);
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TrySpawnNextWave();
-        }
-        if (Input.GetKeyDown(KeyCode.Tab))
+
+        if (Input.GetKeyDown(KeyCode.Tab) && Enemies.Count > 0)
         {
             Enemy enemy = Enemies[0];
             enemy.OnHitByPlayerDash(1);
-            //foreach (var enemy in Enemies.ToArray())
-            //    enemy.OnHitByPlayerDash(1);
         }
-    }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(gridOrigin, gridSize);
-        //if (SpawnGrid != null)
+
+        //if (Input.GetMouseButtonDown(0))
         //{
-        //    foreach (var posArray in SpawnGrid)
+        //    var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    pos.z = 0f;
+        //    pos = GetClosestGridPos(pos);
+        //    if ((PositionInsideGrid(pos) == true) && PositionIsOccupied(pos) == false)
         //    {
-        //        foreach (var pos in posArray)
-        //        {
-        //            Gizmos.DrawWireCube(pos + new Vector2(.5f * gridSpacing, .5f * gridSpacing), (Vector2.one * gridSpacing) - new Vector2(0.01f, 0.01f));
-        //        }
+        //        SpawnEnemy(basicEnemyPrefab, pos);
         //    }
         //}
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireCube(gridOrigin, gridSize);
+    //}
 
     private void OnEnemyDied(Enemy enemy)
     {
@@ -119,8 +106,18 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
     {
+        foreach (var enemy in Enemies.ToArray())
+        {
+            if (enemy)
+                Destroy(enemy.gameObject);
+        }
         // Adjust position of enemy spawn grid and pathfinding grid before init of level.
         gridOrigin += levelInfo.levelCenter;
+        // if last level is smaller, adjust spawn zone
+        if (levelInfo.levelIndex == 2)
+        {
+            gridSize = new Vector2(20, 8);
+        }
         for (int x = 0; x < SpawnGrid.Length; x++)
         {
             for (int y = 0; y < SpawnGrid[x].Length; y++)
