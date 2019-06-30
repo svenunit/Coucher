@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour, IListener
 
     [SerializeField] private Tilemap[] levelTilemaps;
     [SerializeField] private LevelExit[] levelExits;
+
+    public int CurrentRoomNumber => currentLevelIndex;
     [Header("Camera movement")]
     [SerializeField] private float camGotoLevelAnimDuration;
     [SerializeField] private AnimationCurve camGotoLevelAnimCurve;
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour, IListener
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Sven");
         }
+        Debug.LogWarning("CurrentRoomNumber: " + CurrentRoomNumber);
     }
 
     private void OnAllWavesDone()
