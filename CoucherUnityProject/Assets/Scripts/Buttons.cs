@@ -9,8 +9,10 @@ public class Buttons : MonoBehaviour
 {
     PlayerSelect playerSelect;
     Button playButton;
-    TMP_Text twoPlayerWarning;
-    
+    public TMP_Text twoPlayerWarning;
+    public TMP_Text goMode;
+
+
 
     private void Start()
     {
@@ -27,8 +29,12 @@ public class Buttons : MonoBehaviour
 
     private void Update()
     {
-       if(playerSelect.player1Assigned && playerSelect.player2Assigned)
+        if (playerSelect.player1Assigned && playerSelect.player2Assigned)
+        {
+            twoPlayerWarning.enabled = false;
+            goMode.enabled = true;
             playButton.interactable = true;
+        }
     }
     public void ExitButton()
    {
