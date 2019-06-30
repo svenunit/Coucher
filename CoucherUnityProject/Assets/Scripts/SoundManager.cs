@@ -34,6 +34,7 @@ public class SoundManager : MonoBehaviour
     [Header("Audio Clips Music")]
     public AudioClip bgMusicLevel;
     public AudioClip bgMusicEnd;
+    public AudioClip bgMusicTitle;
 
 
 

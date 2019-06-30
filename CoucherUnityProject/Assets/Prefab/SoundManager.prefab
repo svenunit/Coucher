@@ -42,7 +42,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -186,6 +186,7 @@ MonoBehaviour:
   enemyDeath: {fileID: 8300000, guid: b21fc5c8d3ac60842ae862bf6ed89f1b, type: 3}
   bgMusicLevel: {fileID: 8300000, guid: 1390b10d6e21bf047b89b3a9933b24be, type: 3}
   bgMusicEnd: {fileID: 8300000, guid: 01565203d2b327147aee65230af67a63, type: 3}
+  bgMusicTitle: {fileID: 8300000, guid: 4b6a52c1eec6a1149ade9b3538c68303, type: 3}
   audioSourceMain: {fileID: 4996650367694247357}
   audioSourceSFXPlayer: {fileID: 5190473881208984948}
   audioSourceSFXEnemy: {fileID: 2433465227884134149}
