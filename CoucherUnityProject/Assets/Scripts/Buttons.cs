@@ -13,8 +13,11 @@ public class Buttons : MonoBehaviour
    public void PlayButton()
    {
        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicLevel, SoundManager.instance.audioSourceMain, 1, 0);
+       SoundManager.instance.PlayAudioOnSource(SoundManager.instance.bgMusicLevel, SoundManager.instance.audioSourceMain, 1, 0);
     }
     
-
+    public void RetryButton()
+    {
+        SceneManager.LoadScene(1);
+    }
 }
