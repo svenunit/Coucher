@@ -845,7 +845,7 @@ MonoBehaviour:
     type: 2}
   doorClosedTileTopWall: {fileID: 11400000, guid: 9c29b2211ce8ace408645ee05fb1207e,
     type: 2}
-  fadeInAnimDuration: 5
+  fadeInAnimDuration: 1
   fadeInAnimCurve:
     serializedVersion: 2
     m_Curve:
@@ -902,11 +902,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: DashCollider1
       objectReference: {fileID: 0}
-    - target: {fileID: 6473103712264254743, guid: ac9394ad4ded92d48836d4ff7dac2ba7,
-        type: 3}
-      propertyPath: m_EdgeRadius
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 6473103712264254742, guid: ac9394ad4ded92d48836d4ff7dac2ba7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -961,6 +956,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6473103712264254743, guid: ac9394ad4ded92d48836d4ff7dac2ba7,
+        type: 3}
+      propertyPath: m_EdgeRadius
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac9394ad4ded92d48836d4ff7dac2ba7, type: 3}
@@ -1972,6 +1972,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4549723019955458884, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549723019955458884, guid: 94d8c5613ac46ce40be0b2187499fe5a,
+        type: 3}
+      propertyPath: m_MaskInteraction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4549723019955458907, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
       propertyPath: dashlineP1
@@ -1992,16 +2002,6 @@ PrefabInstance:
       propertyPath: dashlineP2Collider
       value: 
       objectReference: {fileID: 1721061949}
-    - target: {fileID: 4549723019955458884, guid: 94d8c5613ac46ce40be0b2187499fe5a,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4549723019955458884, guid: 94d8c5613ac46ce40be0b2187499fe5a,
-        type: 3}
-      propertyPath: m_MaskInteraction
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94d8c5613ac46ce40be0b2187499fe5a, type: 3}
 --- !u!1001 &1412390585
