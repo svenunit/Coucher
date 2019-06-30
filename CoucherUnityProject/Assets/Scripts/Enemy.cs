@@ -27,6 +27,20 @@ public abstract class Enemy : MonoBehaviour
     }
     private float recoveryTimer = 0f;
 
+    [SerializeField] protected Sprite hitByPlayer1Sprite;
+    public Sprite HitByPlayer1Sprite
+    {
+        get => hitByPlayer1Sprite;
+        protected set => hitByPlayer1Sprite = value;
+    }
+
+    [SerializeField] protected Sprite hitByPlayer2Sprite;
+    public Sprite HitByPlayer2Sprite
+    {
+        get => hitByPlayer2Sprite;
+        protected set => hitByPlayer2Sprite = value;
+    }
+
     [Range(1, 10)] protected int health;
     public int Health
     {
@@ -58,6 +72,15 @@ public abstract class Enemy : MonoBehaviour
         get => spriteRenderer;
         protected set => spriteRenderer = value;
     }
+
+    protected SpriteRenderer stunnedEnemySpriteRenderer;
+    public SpriteRenderer StunnedEnemySpriteRenderer
+    {
+        get => stunnedEnemySpriteRenderer;
+        protected set => stunnedEnemySpriteRenderer = value;
+    }
+
+    private Sprite defaultSprite;
 
     protected GameObject stunnedGameobject;
     public GameObject StunnedGameobject
@@ -158,10 +181,12 @@ public abstract class Enemy : MonoBehaviour
         Alive = true;
         Animator = GetComponent<Animator>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
+        StunnedEnemySpriteRenderer = transform.Find("StunnedEnemySprite").GetComponent<SpriteRenderer>();
+        defaultSprite = SpriteRenderer.sprite;
         DeathPS = transform.Find("DeathEffects").GetComponentInChildren<ParticleSystem>();
         GetPlayerReferences();
         Health = StartingHealth;
-        StunnedGameobject = transform.Find("StunnedEnemy").gameObject;
+        StunnedGameobject = transform.Find("StunnedEnemyStars").gameObject;
         StunnedGameobject.SetActive(false);
         ExplosionGameobject = transform.Find("DeathEffects").gameObject;
         Explosionanimator = ExplosionGameobject.GetComponentInChildren<Animator>();
@@ -184,11 +209,27 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D c)
     {
+        if (Alive == false) return;
         CollidingPlayer = c.GetComponent<DashlineBehaviour>();
         if (CollidingPlayer != null && CollidingPlayer != PlayerHitByMostRecently)
         {
             PlayerHitByMostRecently = CollidingPlayer;
             OnHitByPlayerDash(1);
+            // assign new sprite based on hit by which player.
+            if (Alive == false) return;
+
+            switch (CollidingPlayer.gameObject.tag)
+            {
+                case "DashCollider1":
+                    StunnedEnemySpriteRenderer.sprite = HitByPlayer1Sprite;
+                    break;
+                case "DashCollider2":
+                    StunnedEnemySpriteRenderer.sprite = HitByPlayer2Sprite;
+                    break;
+                default:
+                    break;
+            }
+            StunnedEnemySpriteRenderer.enabled = true;
         }
     }
 
@@ -258,7 +299,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void TakeDamage(int amount)
     {
-       
+
         Health -= Mathf.Abs(amount);
     }
 
@@ -288,11 +329,14 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Recover()
     {
         if (Stunned == false) return;
+        StunnedEnemySpriteRenderer.sprite = null;
+        StunnedEnemySpriteRenderer.enabled = false;
         Stunned = false;
         StunnedGameobject.SetActive(Stunned);
         Target = FindTarget();
         Animator.SetFloat("speedMod", 1f);
         recoveryTimer = 0f;
+
         PlayerHitByMostRecently = null;
     }
 
@@ -311,7 +355,10 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Die()
     {
         Alive = false;
+        StunnedEnemySpriteRenderer.sprite = null;
+        StunnedEnemySpriteRenderer.enabled = false;
         SpriteRenderer.enabled = false;
+        StunnedGameobject.SetActive(false);
         //DeathPS.Play();
         ExplosionGameobject.SetActive(true);
         Explosionanimator.SetTrigger("Die");
