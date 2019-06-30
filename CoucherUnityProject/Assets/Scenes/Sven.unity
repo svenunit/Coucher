@@ -672,6 +672,40 @@ MonoBehaviour:
     type: 2}
   doorClosedTileTopWall: {fileID: 11400000, guid: 9c29b2211ce8ace408645ee05fb1207e,
     type: 2}
+  fadeInAnimDuration: 5
+  fadeInAnimCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.48600698
+      value: 0.10219303
+      inSlope: 0.8063197
+      outSlope: 0.8063197
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1839735485 &269816587 stripped
 Tilemap:
   m_CorrespondingSourceObject: {fileID: 6407678423690667683, guid: 223a6028d51efc146a1d105cd874dd0c,
@@ -1544,12 +1578,12 @@ PrefabInstance:
     - target: {fileID: 4549723019955458885, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9000001
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 4549723019955458885, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.99
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4549723019955458885, guid: 94d8c5613ac46ce40be0b2187499fe5a,
         type: 3}
@@ -1808,7 +1842,7 @@ PrefabInstance:
     - target: {fileID: 8702703651777801353, guid: 6450a8d5d4f379448a1cf6d66d28d053,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8702703651777801353, guid: 6450a8d5d4f379448a1cf6d66d28d053,
         type: 3}

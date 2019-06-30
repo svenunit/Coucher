@@ -1,4 +1,4 @@
-﻿using System;
+﻿using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +7,7 @@ using UnityEngine.Tilemaps;
 public class GameManager : MonoBehaviour, IListener
 {
     private Camera cam;
+    private Vector3 originalCamPos;
 
     private int currentLevelIndex = 0;
 
@@ -31,10 +32,16 @@ public class GameManager : MonoBehaviour, IListener
 
     private Coroutine camShakeCoroutine;
 
+    private Image fadeInOutImage;
+    [SerializeField] private float fadeInAnimDuration;
+    [SerializeField] private AnimationCurve fadeInAnimCurve;
+
     private void Awake()
     {
         cam = Camera.main;
+        originalCamPos = cam.transform.position;
         players = FindObjectsOfType<PlayerInput>();
+        fadeInOutImage = GameObject.Find("FadeInOutImage").GetComponent<Image>();
     }
 
     private void OnEnable()
@@ -64,7 +71,8 @@ public class GameManager : MonoBehaviour, IListener
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            StartCoroutine(EndofLevelRoutine());
+            StartNextLevel();
+            // StartCoroutine(EndofLevelRoutine());
         }
     }
 
@@ -117,8 +125,8 @@ public class GameManager : MonoBehaviour, IListener
     private IEnumerator InitRoutine()
     {
         // Fade into the first room
-
-        yield return null;
+        fadeInOutImage.color = Color.black;
+        yield return StartCoroutine(Utility.LerpColorRoutine(fadeInOutImage, Color.clear, fadeInAnimDuration, false, fadeInAnimCurve));
         StartNextLevel();
     }
 
@@ -129,14 +137,16 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator StartNextLevelRoutine()
     {
-        // Move camera to room
         Vector3 trgPosCam = levelTilemaps[currentLevelIndex].gameObject.transform.position;
-        Vector3 trgPosPlayers = levelTilemaps[currentLevelIndex].gameObject.transform.position;
         trgPosCam.z = -10f;
-        yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, trgPosCam, camGotoLevelAnimDuration, camGotoLevelAnimCurve));
+        Vector3 trgPosPlayers = levelTilemaps[currentLevelIndex].gameObject.transform.position;
         // Move Players
         players[0].transform.position = trgPosPlayers + (Vector3.right * 2f);
         players[1].transform.position = trgPosPlayers + (Vector3.left * 2f);
+        // Move camera to room
+        if (cam.transform.position != trgPosCam)
+            yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, trgPosCam, camGotoLevelAnimDuration, camGotoLevelAnimCurve));
+
         players[0]._playerCanMove = true;
         players[1]._playerCanMove = true;
         players[0].GetComponent<SpriteRenderer>().enabled = true;
