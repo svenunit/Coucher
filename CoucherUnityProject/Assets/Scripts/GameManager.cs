@@ -99,7 +99,10 @@ public class GameManager : MonoBehaviour, IListener
     private void OnEnemyDied(Enemy enemy)
     {
         if (camShakeCoroutine != null)
+        {
             StopCoroutine(camShakeCoroutine);
+            cam.transform.position = originalCamPos;
+        }
         camShakeCoroutine = StartCoroutine(CamShakeRoutine());
     }
 
@@ -152,6 +155,7 @@ public class GameManager : MonoBehaviour, IListener
         if (cam.transform.position != trgPosCam)
             yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, trgPosCam, camGotoLevelAnimDuration, camGotoLevelAnimCurve));
 
+        originalCamPos = cam.transform.position;
         players[0]._playerCanMove = true;
         players[1]._playerCanMove = true;
         players[0].GetComponent<SpriteRenderer>().enabled = true;
@@ -177,9 +181,9 @@ public class GameManager : MonoBehaviour, IListener
 
     private IEnumerator CamShakeRoutine()
     {
-        float x = cam.transform.position.x + camShakeAxis.x;
-        float y = cam.transform.position.y + camShakeAxis.y;
-        Vector3 shakePos = new Vector3(UnityEngine.Random.Range(-x, x), UnityEngine.Random.Range(-y, y), 0f);
+        float x =  camShakeAxis.x;
+        float y = camShakeAxis.y;
+        Vector3 shakePos = originalCamPos + new Vector3(Random.Range(-x, x), Random.Range(-y, y), 0f);
         yield return StartCoroutine(Utility.MoveGameObjectRoutine(cam.transform, shakePos, camShakeDuration, camShakeAnimCurve));
         camShakeCoroutine = null;
     }
