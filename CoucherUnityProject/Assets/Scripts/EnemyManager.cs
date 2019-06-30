@@ -94,8 +94,8 @@ public class EnemyManager : MonoBehaviour, IListener
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireCube(gridOrigin, gridSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(gridOrigin, gridSize);
         //if (SpawnGrid != null)
         //{
         //    foreach (var posArray in SpawnGrid)
@@ -118,7 +118,7 @@ public class EnemyManager : MonoBehaviour, IListener
     private void OnNewLevelStarted((int levelIndex, Vector2 levelCenter) levelInfo)
     {
         // Adjust position of enemy spawn grid and pathfinding grid before init of level.
-        gridOrigin = levelInfo.levelCenter;
+        gridOrigin += levelInfo.levelCenter;
         for (int x = 0; x < SpawnGrid.Length; x++)
         {
             for (int y = 0; y < SpawnGrid[x].Length; y++)
