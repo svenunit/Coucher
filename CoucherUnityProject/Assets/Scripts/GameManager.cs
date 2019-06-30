@@ -106,10 +106,7 @@ public class GameManager : MonoBehaviour, IListener
         players[1]._playerCanMove = true;
         players[0].GetComponent<SpriteRenderer>().enabled = true;
         players[1].GetComponent<SpriteRenderer>().enabled = true;
-        Vector3 relativePosChange = Vector2.zero;
-        if (currentLevelIndex > 0)
-            relativePosChange = levelTilemaps[currentLevelIndex].transform.position - levelTilemaps[currentLevelIndex - 1].transform.position;
-        EventManager.NewLevelStarted.RaiseEvent((currentLevelIndex, relativePosChange));
+        EventManager.NewLevelStarted.RaiseEvent((currentLevelIndex, levelTilemaps[currentLevelIndex].transform.position));
         currentLevelIndex++;
     }
 
