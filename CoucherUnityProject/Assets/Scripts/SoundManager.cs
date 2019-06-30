@@ -59,7 +59,6 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(this);
         }
-        PlayAudioOnSource(bgMusicLevel, audioSourceMain, 1, 10);
     }
 
     private void Update()
