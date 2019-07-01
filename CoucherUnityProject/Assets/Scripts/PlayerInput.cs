@@ -28,7 +28,6 @@ public class PlayerInput : MonoBehaviour, IListener
     Vector3 newPosition;
 
 
-
     Vector2 _aimDirection;
     float _aimAngle;
     public float movementSpeed;
@@ -153,6 +152,8 @@ public class PlayerInput : MonoBehaviour, IListener
 
     private void Start()
     {
+       
+
         body2d = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRendererDashIndicator = transform.Find("Indicator").GetComponent<SpriteRenderer>();

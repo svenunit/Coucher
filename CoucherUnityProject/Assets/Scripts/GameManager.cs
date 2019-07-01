@@ -47,9 +47,14 @@ public class GameManager : MonoBehaviour, IListener
     public TMP_Text controller1;
     public TMP_Text controller2;
 
+    public PlayerInput[] PlayerArray;
+
+
 
     private void Awake()
     {
+        PlayerArray[0].setPlayerNumber(1);
+        PlayerArray[1].setPlayerNumber(2);
         Instance = this;
         cam = Camera.main;
         originalCamPos = cam.transform.position;
