@@ -91,7 +91,7 @@ public class PlayerSelect : MonoBehaviour
         ////////
 
 
-        if (Input.GetAxis("RTriggerP1") >= .9f && !player1Assigned)
+        if (Input.GetAxis("RTriggerP1") >= .1f && !player1Assigned)
         {
             if (player[0].GetComponent<PlayerInput>().getPlayerNumber() == 0)
             {
@@ -106,7 +106,7 @@ public class PlayerSelect : MonoBehaviour
 
         }
         //////////
-        if (Input.GetAxis("RTriggerP2") >= .9f && !player2Assigned)
+        if (Input.GetAxis("RTriggerP2") >= .1f && !player2Assigned)
         {
             if (player[1].GetComponent<PlayerInput>().getPlayerNumber() == 0)
             {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using TMPro;
 
 public class GameManager : MonoBehaviour, IListener
 {
@@ -43,6 +44,10 @@ public class GameManager : MonoBehaviour, IListener
 
     public static GameManager Instance;
 
+    public TMP_Text controller1;
+    public TMP_Text controller2;
+
+
     private void Awake()
     {
         Instance = this;
@@ -79,6 +84,9 @@ public class GameManager : MonoBehaviour, IListener
 
     void Update()
     {
+        controller1.text = Input.GetJoystickNames()[0];
+        controller2.text = Input.GetJoystickNames()[1];
+
         if (Input.GetKeyDown(KeyCode.F1))
         {
             StartNextLevel();

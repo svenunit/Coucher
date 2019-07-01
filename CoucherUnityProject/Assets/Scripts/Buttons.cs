@@ -14,6 +14,11 @@ public class Buttons : MonoBehaviour
     public TMP_Text goMode;
 
 
+    //DEBUG
+    public TMP_Text controller1;
+    public TMP_Text controller2;
+
+
 
     private void Start()
     {
@@ -33,6 +38,13 @@ public class Buttons : MonoBehaviour
 
     private void Update()
     {
+        controller1.text = Input.GetJoystickNames()[0];
+        controller2.text = Input.GetJoystickNames()[1];
+
+        Debug.Log(Input.GetJoystickNames());
+
+
+
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             if (playerSelect.player1Assigned && playerSelect.player2Assigned)
